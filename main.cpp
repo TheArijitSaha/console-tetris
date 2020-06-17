@@ -1,10 +1,12 @@
 #include <iostream>
+#include<stdlib.h>
 #include "gameresources.h"
 using namespace std;
 
 int main()
 {
     //get handle of current process.
+
     HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 
     int i,j;
@@ -28,10 +30,11 @@ int main()
     }*/
 
     GameBoard gb;
-    for(i=0;i<min(BOARD_COLUMNS,BOARD_ROWS);++i)
+    /*for(i=0;i<min(BOARD_COLUMNS,BOARD_ROWS);++i)
     {
         gb.BoardMatrix[i][i] = FILLED_INT;
-    }
+    }*/
+    TetBlock tb(&gb);
     gb.printBoard(h);
     return 0;
 }

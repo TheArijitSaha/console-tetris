@@ -1,17 +1,19 @@
 # depslib dependency file v1.0
-1592299300 source:c:\users\mayukh\documents\c++ projects\tetris_console\main.cpp
+1592410786 source:c:\users\mayukh\documents\c++ projects\tetris_console\main.cpp
 	<iostream>
+	<stdlib.h>
 	"gameresources.h"
 
-1592298969 c:\users\mayukh\documents\c++ projects\tetris_console\gameresources.h
+1592409756 c:\users\mayukh\documents\c++ projects\tetris_console\gameresources.h
 	<windows.h>
 	"gameconstants.h"
 
-1592299461 c:\users\mayukh\documents\c++ projects\tetris_console\gameconstants.h
+1592411200 c:\users\mayukh\documents\c++ projects\tetris_console\gameconstants.h
 
-1592299260 source:c:\users\mayukh\documents\c++ projects\tetris_console\gameresources.cpp
+1592411013 source:c:\users\mayukh\documents\c++ projects\tetris_console\gameresources.cpp
 	"gameresources.h"
 	<iostream>
+	<time.h>
 	<stdlib.h>
 	<conio.h>
 
