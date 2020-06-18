@@ -1,4 +1,5 @@
 #include "maingame.h"
+#include<iostream>
 #include<conio.h>
 
 MainGame::MainGame(HANDLE h)
@@ -9,39 +10,51 @@ void MainGame::gameInitialize()
 {
     currentBlock.bindWithBoard(&mainBoard);
 }
+void MainGame::printGameOver()
+{
+    std::cout<<"GAME OVER\n";
+}
 
 void MainGame::gameLoop()
 {
-    while(1)//block drop loop
+    gameOver = false;
+    while(!gameOver)//block drop loop
     {
         t1=clock();//initialize reference time
         mainBoard.printBoard(currentHandle);
-        do
+        do//runs for finite time interval within which user can change position/orientation of block
         {
-            while((!_kbhit()) && ((t2-t1)/CLOCKS_PER_SEC<1))
+            while((!_kbhit()) && ((t2-t1)<500))
             {
                 t2 = clock();
             }
             if(_kbhit())
             {
                 pressed_key = _getch();
-                mainBoard.eraseBoard();
                 switch(pressed_key)
                 {
-                    case KEY_LEFT: currentBlock.moveOneStepLeft();
+                    case KEY_LEFT:  mainBoard.eraseBoard();
+                                    currentBlock.moveOneStepLeft();
+                                    mainBoard.printBoard(currentHandle);
                     break;
-                    case KEY_RIGHT: currentBlock.moveOneStepRight();
+                    case KEY_RIGHT: mainBoard.eraseBoard();
+                                    currentBlock.moveOneStepRight();
+                                    mainBoard.printBoard(currentHandle);
                     break;
-                    case KEY_UP: currentBlock.changeCurrentOrientation();
+                    case KEY_UP:    mainBoard.eraseBoard();
+                                    currentBlock.changeCurrentOrientation();
+                                    mainBoard.printBoard(currentHandle);
                     break;
+                    default: break;
                 }
-                mainBoard.printBoard(currentHandle);
             }
             t2 = clock();
-        }while((t2-t1)<700);
+        }while((t2-t1)<500);
         if(currentBlock.isTouchingBelow())
         {
             currentBlock.sampleRandomBlock();
+            if(currentBlock.isOverlapping()) gameOver = true;
+            else currentBlock.stamp();
         }
         else
         {
@@ -49,4 +62,5 @@ void MainGame::gameLoop()
         }
         mainBoard.eraseBoard();
     }
+    printGameOver();
 }

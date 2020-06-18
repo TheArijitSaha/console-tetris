@@ -10,6 +10,10 @@ class MainGame
     clock_t t1,t2;
     HANDLE currentHandle;
     char pressed_key;
+
+    bool gameOver;
+    void printGameOver();
+
 public:
     MainGame(HANDLE h);//Pss the handle of current process to the constructor
     void gameInitialize();//method to initialize object variables.

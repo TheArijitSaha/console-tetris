@@ -61,6 +61,7 @@ void TetBlock::bindWithBoard(GameBoard *gb)
 {
     bindedBoard = gb;
     sampleRandomBlock();
+    stamp();
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void TetBlock::stamp()
@@ -95,26 +96,19 @@ void TetBlock::unstamp()
     }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool TetBlock::isTouchingLaterally()
-{
-    if(posY == 0 || (posY + maxY == BOARD_COLUMNS-1)) return true;//Reached the vertical edge of board
-
-    int i;
-    for(i=0;i<=maxX;++i)
-    {
-        if(((bindedBoard->BoardMatrix[posX+i][posY-1] == FILLED_INT)&&(blockShape[i][0] == FILLED_INT)) || ((bindedBoard->BoardMatrix[posX+i][posY+maxY+1] == FILLED_INT) && (blockShape[i][maxY] == FILLED_INT))) return true;
-    }
-    return false;
-}
 
 bool TetBlock::isTouchingLeft()
 {
     if(posY == 0) return true;//Reached the left vertical edge of board
 
-    int i;
+    int i,j;
     for(i=0;i<=maxX;++i)
     {
-        if((bindedBoard->BoardMatrix[posX+i][posY-1] == FILLED_INT)&&(blockShape[i][0] == FILLED_INT)) return true;
+        for(j=0;j<=maxY;++j)
+        {
+            if((bindedBoard->BoardMatrix[posX+i][posY+j-1] == FILLED_INT)&&(blockShape[i][j] == FILLED_INT)) return true;
+            if(blockShape[i][j] == FILLED_INT) break;
+        }
     }
     return false;
 }
@@ -123,10 +117,14 @@ bool TetBlock::isTouchingRight()
 {
     if(posY + maxY == BOARD_COLUMNS-1) return true;//Reached the vertical edge of board
 
-    int i;
+    int i,j;
     for(i=0;i<=maxX;++i)
     {
-        if((bindedBoard->BoardMatrix[posX+i][posY+maxY+1] == FILLED_INT) && (blockShape[i][maxY] == FILLED_INT)) return true;
+        for(j=maxY;j>=0;--j)
+        {
+            if((bindedBoard->BoardMatrix[posX+i][posY+j+1] == FILLED_INT) && (blockShape[i][j] == FILLED_INT)) return true;
+            if(blockShape[i][j] == FILLED_INT) break;
+        }
     }
     return false;
 }
@@ -135,10 +133,14 @@ bool TetBlock::isTouchingRight()
 bool TetBlock::isTouchingBelow()
 {
     if(posX+maxX==BOARD_ROWS-1) return true;//Reached the floor of the board
-    int j;
+    int i,j;
     for(j=0;j<=maxY;++j)
     {
-        if((bindedBoard->BoardMatrix[posX+maxX+1][posY+j] == FILLED_INT) && (blockShape[maxX][j] == FILLED_INT)) return true;
+        for(i=maxX;i>=0;--i)
+        {
+            if((bindedBoard->BoardMatrix[posX+i+1][posY+j] == FILLED_INT) && (blockShape[i][j] == FILLED_INT)) return true;
+            if(blockShape[i][j] == FILLED_INT) break;
+        }
     }
     return false;
 }
@@ -186,7 +188,6 @@ void TetBlock::sampleRandomBlock()
 
     reSample();
     posY = rand()%(BOARD_COLUMNS-maxY);
-    stamp();
 }
 
 void TetBlock::changeCurrentOrientation()
