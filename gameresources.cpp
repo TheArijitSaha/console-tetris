@@ -44,11 +44,20 @@ void GameBoard::printBoard(HANDLE h)
 
 void GameBoard::eraseBoard()
 {
-    system("clear");
+    system("cls");
 }
 
 ///TETBLOCK
+TetBlock::TetBlock()
+{
+
+}
 TetBlock::TetBlock(GameBoard *gb)
+{
+    bindedBoard = gb;
+    sampleRandomBlock();
+}
+void TetBlock::bindWithBoard(GameBoard *gb)
 {
     bindedBoard = gb;
     sampleRandomBlock();
@@ -79,7 +88,7 @@ void TetBlock::unstamp()
         {
             if(blockShape[i][j] == FILLED_INT)
             {
-                bindedBoard->BoardMatrix[posX+i][posX+j] = EMPTY_INT;
+                bindedBoard->BoardMatrix[posX+i][posY+j] = EMPTY_INT;
                 bindedBoard->BoardColorMatrix[posX+i][posY+j] = WHITE;
             }
         }

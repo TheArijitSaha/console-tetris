@@ -42,6 +42,8 @@
 			<Option target="Debug" />
 		</Unit>
 		<Unit filename="main.cpp" />
+		<Unit filename="maingame.cpp" />
+		<Unit filename="maingame.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

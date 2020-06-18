@@ -26,8 +26,10 @@ public:
     int blockColor;
     int block_index;//block ID in blockmatrix
     int orientation_index;//orientation ID of that block in blockmatrix
-
+    TetBlock();
     TetBlock(GameBoard *gb);//Constructor
+    void bindWithBoard(GameBoard *gb);
+
 
     ///SAMPLING METHODS
     void sampleRandomBlock();//Samples a random block from block matrix, with random color, random orientation.

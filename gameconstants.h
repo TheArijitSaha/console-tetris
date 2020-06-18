@@ -22,6 +22,12 @@
 
 #define COLOR_RANGE 16
 #define REDUCED_COLOR_RANGE 5
+
+#define KEY_UP 'w'
+#define KEY_DOWN 's'
+#define KEY_LEFT 'a'
+#define KEY_RIGHT 'd'
+
     const int BLOCK_COUNT = 7;//Exhaustive set of blocks in this game
     const int ORIENTATION_COUNT = 4;//All possible orientations of a single block
     const int BOARD_ROWS = 18;
