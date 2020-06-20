@@ -12,6 +12,7 @@ class MainGame
     char pressed_key;
 
     bool gameOver;
+    void slashRoutine();
     void printGameOver();
 
 public:

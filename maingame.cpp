@@ -14,13 +14,19 @@ void MainGame::printGameOver()
 {
     std::cout<<"GAME OVER\n";
 }
-
+void MainGame::slashRoutine()
+{
+    mainBoard.updateRoof();
+    mainBoard.updateSlashIndices();
+    mainBoard.slashRows();
+}
 void MainGame::gameLoop()
 {
     gameOver = false;
     while(!gameOver)//block drop loop
     {
         t1=clock();//initialize reference time
+        t2=clock();
         mainBoard.printBoard(currentHandle);
         do//runs for finite time interval within which user can change position/orientation of block
         {
@@ -53,7 +59,9 @@ void MainGame::gameLoop()
         if(currentBlock.isTouchingBelow())
         {
             currentBlock.sampleRandomBlock();
-            if(currentBlock.isOverlapping()) gameOver = true;
+            slashRoutine();
+            //if(currentBlock.isOverlapping()) gameOver = true;
+            if(mainBoard.roof <0) gameOver = true;
             else currentBlock.stamp();
         }
         else
@@ -63,4 +71,5 @@ void MainGame::gameLoop()
         mainBoard.eraseBoard();
     }
     printGameOver();
+    _getch();
 }
