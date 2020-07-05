@@ -1,8 +1,11 @@
-#ifndef GAMECONSTANTS_H_INCLUDED
-#define GAMECONSTANTS_H_INCLUDED
+#ifndef CONSTANTS
+#define CONSTANTS
 
-//everything is static over here.
+/* Board Properties */
+const int BOARD_ROWS = 18;
+const int BOARD_COLUMNS = 13;
 
+/*
 #define BLACK 0
 #define BLUE 1
 #define GREEN 2
@@ -30,8 +33,6 @@
 
     const int BLOCK_COUNT = 7;//Exhaustive set of blocks in this game
     const int ORIENTATION_COUNT = 4;//All possible orientations of a single block
-    const int BOARD_ROWS = 18;
-    const int BOARD_COLUMNS = 13;
     const int EMPTY_INT = 0;//INTEGER value of EMPTY cell
     const int FILLED_INT = 1;//INTEGER value of FILLED cell
     const char EMPTY_CHAR = 176;//GRAPHICAL CHARACTER empty cell
@@ -67,5 +68,5 @@
                                 {1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},
                                 {1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0},
                                 {1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0}};
-
-#endif // GAMECONSTANTS_H_INCLUDED
+*/
+#endif /* CONSTANTS */

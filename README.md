@@ -1,4 +1,4 @@
-# Console Tetris [Under development]
+# Console Tetris for Linux [Under development]
 
 *Basic idea taken from [maxoverride's repo](https://github.com/maxoverride/tetris_console) (which runs on windows at the time of fork).*
 
