@@ -9,7 +9,6 @@ class Tetris {
 		bool gameOver;
 		//TetBlock currentBlock;
 		//clock_t t1,t2;
-		//HANDLE currentHandle;
 		//char pressed_key;
 		//void slashRoutine();
 		//void printGameOver();

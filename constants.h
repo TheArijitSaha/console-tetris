@@ -5,9 +5,10 @@
 const int BOARD_ROWS = 18;
 const int BOARD_COLUMNS = 13;
 
-/*
-#define BLACK 0
-#define BLUE 1
+/* Colours */
+const char* COLOUR_BACK[] = { "\e[48;2;45;45;45m", "\e[48;2;40;40;40m" };
+const char COLOUR_RESET[] = "\033[0m";
+/*#define BLUE 1
 #define GREEN 2
 #define CYAN 3
 #define RED 4
@@ -22,7 +23,9 @@ const int BOARD_COLUMNS = 13;
 #define LIGHTMAGENTA 13
 #define YELLOW 14
 #define WHITE 15
+*/
 
+/*
 #define COLOR_RANGE 16
 #define REDUCED_COLOR_RANGE 5
 

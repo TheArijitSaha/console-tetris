@@ -1,5 +1,6 @@
 #include <iostream>
 #include "game_board.h"
+#include "constants.h"
 //#include <time.h>
 //#include <stdlib.h>
 //#include <conio.h>
@@ -26,7 +27,9 @@ gameBoard::gameBoard() {
 }
 
 void gameBoard::render() {
+	for (int k = 0; k < 9; ++k) printf("\n");	/* TODO */
 	for (int i = 0; i < this->row_count; ++i) {
+		for (int k = 0; k < 7; ++k) printf("\t");	/* TODO */
 		for (int j = 0; j < this->column_count; ++j) {
 			// if(BoardMatrix[i][j] == EMPTY_INT) cout<<EMPTY_CHAR;
 			// else
@@ -35,7 +38,7 @@ void gameBoard::render() {
 			// 	cout<<FILLED_CHAR;
 			// 	SetConsoleTextAttribute(h,WHITE);//RESET TEXT COLOR TO WHITE
 			// }
-			printf("\u25A0");
+			printf("%s  %s", COLOUR_BACK[(i + j) % 2], COLOUR_RESET);
 		}
 		printf("\n");
 	}

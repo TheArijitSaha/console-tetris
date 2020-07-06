@@ -1,6 +1,5 @@
 #ifndef GAME_BOARD
 #define GAME_BOARD
-#include "constants.h"
 
 class gameBoard {
 	private:
