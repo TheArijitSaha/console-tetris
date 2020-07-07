@@ -6,6 +6,7 @@
 using namespace std;
 
 Tetris::Tetris(): board(), current_block(&(this->board)) {
+	this->current_block.getNewBlock();
 }
 
 /*void Tetris::printGameOver()
@@ -23,10 +24,7 @@ void Tetris::loop() {
 	while (!this->game_over) {
 		clock_t t1 = clock(), t2 = clock();
 		do {
-			this->current_block.getNewBlock();
-			this->current_block.stamp();
 			this->board.render();
-			this->current_block.unstamp();
 			while(/* TODO (!_kbhit())  && */((t2 - t1)<CLOCKS_PER_SEC)) {
 				t2 = clock();
 			}
@@ -52,18 +50,16 @@ void Tetris::loop() {
 			}*/
 			t2 = clock();
 		} while (t2 - t1 < CLOCKS_PER_SEC);
-		/*if(currentBlock.isTouchingBelow())
-		{
-				currentBlock.sampleRandomBlock();
-				slashRoutine();
-				//if(currentBlock.isOverlapping()) gameOver = true;
-				if(mainBoard.roof <0) gameOver = true;
-				else currentBlock.stamp();
+		
+		if (this->current_block.isTouchingBelow()) {
+			//slashRoutine();
+			//if(currentBlock.isOverlapping()) gameOver = true;
+			//if(mainBoard.roof <0) gameOver = true;
+				//else currentBlock.stamp();
+			this->current_block.getNewBlock();
+		} else {
+			this->current_block.moveOneStepDown();
 		}
-		else
-		{
-				currentBlock.moveOneStepDown();
-		}*/
 	}
 	// printGameOver();
 }

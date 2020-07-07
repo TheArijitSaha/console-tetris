@@ -17,16 +17,16 @@ class TetBlock {
 		void unstamp();
 		// void changeCurrentOrientation();//Rotate the current block assigned to this TetBlock
 
-		// ///SENSING METHODS
+		/* Sensory Methods */
 		// bool isTouchingLaterally();//is this block touching board or other block vertically??
 		// bool isTouchingLeft();//left edge of this block touching anything?
 		// bool isTouchingRight();//right edge of this block touching anything?
-		// bool isTouchingBelow();//Base of this block touching anything?
+		bool isTouchingBelow();
 		// bool isOverlapping();//Block overlapping with existing blocks?
 
 
-		// ///MOVEMENT METHODS
-		// void moveOneStepDown();
+		/* Movement Methods */
+		void moveOneStepDown();
 		// void moveOneStepLeft();
 		// void moveOneStepRight();
 

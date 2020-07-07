@@ -44,6 +44,10 @@ void GameBoard::erase() {
 	system("clear");
 }
 
+Cell GameBoard::getCell(int X, int Y) {
+	return this->board_matrix[Y][X];
+}
+
 void GameBoard::setCell(int X, int Y, Cell val) {
 	this->board_matrix[Y][X] = val;
 }
@@ -139,3 +143,12 @@ void GameBoard::slashRows()
 		}
 		roof = tempRoof;//update roof
 }*/
+
+int GameBoard::getRowCount() {
+	return this->row_count;
+}
+
+int GameBoard::getColumnCount() {
+	return this->column_count;
+}
+

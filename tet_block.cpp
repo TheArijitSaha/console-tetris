@@ -65,25 +65,23 @@ bool TetBlock::isTouchingRight()
 				}
 		}
 		return false;
-}
+}*/
 
-
-bool TetBlock::isTouchingBelow()
-{
-		if(posX+maxX==BOARD_ROWS-1) return true;//Reached the floor of the board
-		int i,j;
-		for(j=0;j<=maxY;++j)
-		{
-				for(i=maxX;i>=0;--i)
-				{
-						if((bindedBoard->BoardMatrix[posX+i+1][posY+j] == FILLED_INT) && (blockShape[i][j] == FILLED_INT)) return true;
-						if(blockShape[i][j] == FILLED_INT) break;
-				}
+bool TetBlock::isTouchingBelow() {
+	if (this->Y + this->height >= this->board->getRowCount())
+		return true;
+	this->unstamp();
+	for (int i = 0; i < 4; ++i) {
+		if (this->board->getCell(this->X + this->pattern[i].X, this->Y + this->pattern[i].Y + 1) == Full) {
+			this->stamp();
+			return true;
 		}
-		return false;
+	}
+	this->stamp();
+	return false;
 }
 
-bool TetBlock::isOverlapping()
+/*bool TetBlock::isOverlapping()
 {
 		int i,j;
 		for(i=0;i<=maxX;++i)
@@ -112,6 +110,7 @@ void TetBlock::getNewBlock() {
 	this->readPattern();
 	this->Y = 0;
 	this->X = (this->width > 2 ? 3 : 4);
+	this->stamp();
 }
 
 /*void TetBlock::changeCurrentOrientation()
@@ -182,13 +181,14 @@ void TetBlock::moveOneStepRight()
 				++posY;
 				stamp();
 		}
-}
-void TetBlock::moveOneStepDown()
-{
-		if(!isTouchingBelow())
-		{
-				unstamp();
-				++posX;
-				stamp();
-		}
 }*/
+
+void TetBlock::moveOneStepDown() {
+	/* TODO what happens if touching below */
+	if (!this->isTouchingBelow()) {
+		this->unstamp();
+		++(this->Y);
+		this->stamp();
+	}
+}
+

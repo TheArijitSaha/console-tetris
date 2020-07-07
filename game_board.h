@@ -14,6 +14,13 @@ class GameBoard {
 		GameBoard();
 		void render();
 		void erase();
+
+		/* Getters */
+		Cell getCell(int, int);
+		int getRowCount();
+		int getColumnCount();
+		
+		/* Setters */
 		void setCell(int, int, Cell);
 		void setColour(int, int, CellColour);
 		//int BoardColorMatrix[BOARD_ROWS][BOARD_COLUMNS];//stores color of each cell of the board
