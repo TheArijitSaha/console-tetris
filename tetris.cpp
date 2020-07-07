@@ -1,17 +1,11 @@
 #include "tetris.h"
 #include <iostream>
+#include <ctime>
 //#include <conio.h>
 
 using namespace std;
 
-/* TODO */
-Tetris::Tetris(): board() {
-}
-/*
- * initialise()
- */
-void Tetris::initialise() {
-	system("clear");
+Tetris::Tetris(): board(), current_block(&(this->board)) {
 }
 
 /*void Tetris::printGameOver()
@@ -25,11 +19,14 @@ void Tetris::slashRoutine()
     mainBoard.slashRows();
 }*/
 void Tetris::loop() {
-	this->gameOver = false;
-	while (!this->gameOver) {
+	this->game_over = false;
+	while (!this->game_over) {
 		clock_t t1 = clock(), t2 = clock();
 		do {
+			this->current_block.getNewBlock();
+			this->current_block.stamp();
 			this->board.render();
+			this->current_block.unstamp();
 			while(/* TODO (!_kbhit())  && */((t2 - t1)<CLOCKS_PER_SEC)) {
 				t2 = clock();
 			}
@@ -67,7 +64,6 @@ void Tetris::loop() {
 		{
 				currentBlock.moveOneStepDown();
 		}*/
-		this->board.erase();
 	}
 	// printGameOver();
 }

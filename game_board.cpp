@@ -1,58 +1,58 @@
 #include <iostream>
 #include "game_board.h"
-#include "constants.h"
 //#include <time.h>
 //#include <stdlib.h>
 //#include <conio.h>
 
 using namespace std;
 
-gameBoard::gameBoard() {
+/* -- */ GameBoard::GameBoard() {
 	this->row_count = BOARD_ROWS;
 	this->column_count = BOARD_COLUMNS;
-	/*int i, j;
-	//initialize game board with all cells as EMPTY_INT (0)
-	for(i=0;i<BOARD_ROWS;++i)
-	{
-		for(j=0;j<BOARD_COLUMNS;++j)
-		{
-			BoardMatrix[i][j] = EMPTY_INT;
-			BoardColorMatrix[i][j] = WHITE;
+	this->board_matrix = (Cell**) malloc(sizeof(Cell*) * this->row_count);
+	this->board_colour_matrix = (CellColour**) malloc(sizeof(CellColour*) * this->row_count);
+	for (int i = 0; i < this->row_count; ++i) {
+		this->board_matrix[i] = (Cell*) malloc(sizeof(Cell) * this->column_count);
+		this->board_colour_matrix[i] = (CellColour*) malloc(sizeof(CellColour) * this->column_count);
+		for (int j = 0; j < this->column_count; ++j) {
+			this->board_matrix[i][j] = Empty;
+			this->board_colour_matrix[i][j] = None;
 		}
-		slashableAtRow[i] = 0;
+		// slashableAtRow[i] = 0;
 	}
-	//initialize roof
-	roof = BOARD_ROWS-1;
-	toBeSlashedNow = false;*/
+	this->filled_height = 0;
+	// toBeSlashedNow = false;
 }
 
-void gameBoard::render() {
-	for (int k = 0; k < 9; ++k) printf("\n");	/* TODO */
+/* -- */ void GameBoard::render() {
+	this->erase();
+	for (int k = 0; k < 8; ++k) printf("\n");	/* TODO */
 	for (int i = 0; i < this->row_count; ++i) {
 		for (int k = 0; k < 7; ++k) printf("\t");	/* TODO */
 		for (int j = 0; j < this->column_count; ++j) {
-			// if(BoardMatrix[i][j] == EMPTY_INT) cout<<EMPTY_CHAR;
-			// else
-			// {
-			// 	SetConsoleTextAttribute(h,BoardColorMatrix[i][j]);//SET TEXT COLOR TO COLOR OF CURRENT CELL
-			// 	cout<<FILLED_CHAR;
-			// 	SetConsoleTextAttribute(h,WHITE);//RESET TEXT COLOR TO WHITE
-			// }
-			printf("%s  %s", COLOUR_BACK[(i + j) % 2], COLOUR_RESET);
+			if (this->board_matrix[i][j] == Empty) {
+				printf("%s  %s", COLOUR_BG[(i + j) % 2], COLOUR_RESET);
+			} else {
+				printf("%s  %s", COLOUR_CELL[this->board_colour_matrix[i][j]], COLOUR_RESET);
+			}
 		}
 		printf("\n");
 	}
 }
 
-/*
- * erase()
- * Erases the screen, preparing for the render() to render again.
- */
-void gameBoard::erase() {
+void GameBoard::erase() {
 	system("clear");
 }
 
-/*bool GameBoard::isFilledRow(int i)
+void GameBoard::setCell(int X, int Y, Cell val) {
+	this->board_matrix[Y][X] = val;
+}
+
+void GameBoard::setColour(int X, int Y, CellColour val) {
+ this->board_colour_matrix[Y][X] = val;
+}
+
+/* -- */ /*bool GameBoard::isFilledRow(int i)
 {
 		int j;
 		for(j=0;j<BOARD_COLUMNS;++j)

@@ -8,6 +8,9 @@ Tasks:
 
 - [ ] Refactor for Linux
 
+Steps to launch:
+
+- launch `tetris_runner` executable
 
 <!-- All constant values and look up tables are in the `gameconstants.h` header file. More specifically, it contains a 2D integer array `BlockMatrix` which stores all Tetris blocks, each orientation of each block taking 4x4 locations.
 
