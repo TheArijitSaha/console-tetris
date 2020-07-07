@@ -4,19 +4,13 @@
 
 class TetBlock {
 	private:
+		Point pattern[4];
 		GameBoard *board;
 		int X, Y, width, height;
 		int block_index, orientation_index;
-		Point pattern[4];
 		CellColour colour;
 	public:
 		TetBlock(GameBoard*);
-		// int blockShape[4][4];//stores the shape of block in 2D matrix form, represented by 0/1
-		// int maxX,maxY;//stores max range of the block in blockShape Matrix
-		// int blockColor;
-		// TetBlock(GameBoard *gb);//Constructor
-		// void bindWithBoard(GameBoard *gb);
-
 		void getNewBlock();
 		void readPattern();
 		void stamp();

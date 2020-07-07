@@ -14,9 +14,13 @@ enum Cell {
 /* CellColour */
 enum CellColour {
 	None,
-	Red,
+	Cyan,
 	Blue,
+	Orange,
+	Yellow,
 	Green,
+	Purple,
+	Red,
 	CELL_COLOUR_COUNT
 };
 
@@ -25,26 +29,14 @@ const char* const COLOUR_BG[] = { "\e[48;2;45;45;45m", "\e[48;2;40;40;40m" };
 const char COLOUR_RESET[] = "\033[0m";
 const char* const COLOUR_CELL[] = {
 	"" /* None */,
-	"\e[48;2;255;0;0m" /* Red */,
-	"\e[48;2;0;255;0m" /* Green */,
-	"\e[48;2;0;0;255m" /* Blue */
+	"\e[48;2;0;159;218m" /* Cyan -- I */,
+	"\e[48;2;0;101;189m" /* Blue -- J */,
+	"\e[48;2;255;121;0m" /* Orange -- L */,
+	"\e[48;2;254;203;0m" /* Yellow -- O */,
+	"\e[48;2;105;190;40m" /* Green -- S */,
+	"\e[48;2;149;45;152m" /* Purple -- T */,
+	"\e[48;2;237;41;57m" /* Red -- Z */
 };
-/*#define BLUE 1
-#define GREEN 2
-#define CYAN 3
-#define RED 4
-#define MAGENTA 5
-#define BROWN 6
-#define LIGHTGRAY 7
-#define DARKGRAY 8
-#define LIGHTBLUE 9
-#define LIGHTGREEN 10
-#define LIGHTCYAN 11
-#define LIGHTRED 12
-#define LIGHTMAGENTA 13
-#define YELLOW 14
-#define WHITE 15
-*/
 
 /* Point */
 struct Point {
