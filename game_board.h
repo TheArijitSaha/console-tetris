@@ -13,7 +13,7 @@ class GameBoard {
 		//bool isSlashableRow(int i); //returns true if i'th row is slashable.
 	public:
 		GameBoard();
-		void render();
+		~GameBoard();
 		WINDOW *board_win;	/*TODO change this to private*/
 
 		/* Getters */
@@ -29,6 +29,10 @@ class GameBoard {
 		//void updateRoof();//updates the value of roof after a block is placed in the board;
 		//void updateSlashIndices();//updates
 		//void slashRows();
+
+		/* Methods */
+		void render();
+		void createGameBoardWindow();
 };
 
 //void initializeBlockMatrix();

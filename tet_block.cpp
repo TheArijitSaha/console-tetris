@@ -1,8 +1,6 @@
 #include <iostream>
 #include "tet_block.h"
 #include <ctime>
-//#include <stdlib.h>
-//#include <conio.h>
 
 using namespace std;
 
@@ -103,7 +101,7 @@ void TetBlock::getNewBlock() {
 	this->colour = static_cast<BlockColour>(this->block_index + 1);
 	this->readPattern();
 	this->Y = 0;
-	this->X = (this->width > 2 ? 3 : 4);
+	this->X = (this->board->getColumnCount() - this->width) / 2;
 	this->stamp();
 }
 

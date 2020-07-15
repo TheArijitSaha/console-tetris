@@ -1,12 +1,11 @@
 #include <iostream>
 #include "game_board.h"
-//#include <time.h>
-//#include <stdlib.h>
-//#include <conio.h>
 
 using namespace std;
-
+//WINDOW* local_win;
 /* -- */ GameBoard::GameBoard() {
+	this->board_win = nullptr;
+
 	this->row_count = BOARD_ROWS;
 	this->column_count = BOARD_COLUMNS;
 	this->board_matrix = (Cell**) malloc(sizeof(Cell*) * this->row_count);
@@ -24,32 +23,26 @@ using namespace std;
 	// toBeSlashedNow = false;
 }
 
-/* -- */ void GameBoard::render() {
-	clear();
-	wmove(this->board_win, 0 , 0);
-	for (int i = 0; i < this->row_count; ++i) {
-		for (int j = 0; j < this->column_count; ++j) {
-			if (this->board_matrix[i][j] == Empty) {
-				if ((i + j) % 2 == 0) attron(COLOR_PAIR(BLOCK_BG1));
-				else attron(COLOR_PAIR(BLOCK_BG2));
-				wprintw(this->board_win, "  ");
-				if ((i + j) % 2 == 0) attroff(COLOR_PAIR(BLOCK_BG1));
-				else attroff(COLOR_PAIR(BLOCK_BG2));
-			} else {
-				attron(COLOR_PAIR(this->board_colour_matrix[i][j]));
-				wprintw(this->board_win, "  ");
-				attroff(COLOR_PAIR(this->board_colour_matrix[i][j]));
-			}
-		}
-		wprintw(this->board_win, "\n");
+GameBoard::~GameBoard() {
+	if (this->board_win != nullptr) {
+		delwin(this->board_win);
 	}
-	refresh();
 }
 
+/* Getters */
 Cell GameBoard::getCell(int X, int Y) {
 	return this->board_matrix[Y][X];
 }
 
+int GameBoard::getRowCount() {
+	return this->row_count;
+}
+
+int GameBoard::getColumnCount() {
+	return this->column_count;
+}
+
+/* Setters */
 void GameBoard::setCell(int X, int Y, Cell val) {
 	this->board_matrix[Y][X] = val;
 }
@@ -146,11 +139,41 @@ void GameBoard::slashRows()
 		roof = tempRoof;//update roof
 }*/
 
-int GameBoard::getRowCount() {
-	return this->row_count;
+/* Methods */
+void GameBoard::render() {
+	wclear(this->board_win);
+	for (int i = 0; i < this->row_count; ++i) {
+		wmove(this->board_win, i, 0);
+		for (int j = 0; j < this->column_count; ++j) {
+			if (this->board_matrix[i][j] == Empty) {
+				if ((i + j) % 2 == 0) {
+					wattron(this->board_win, COLOR_PAIR(BLOCK_BG1));
+				} else {
+					wattron(this->board_win, COLOR_PAIR(BLOCK_BG2));
+				}
+				wprintw(this->board_win, "  ");
+				if ((i + j) % 2 == 0) {
+					wattroff(this->board_win, COLOR_PAIR(BLOCK_BG1));
+				} else {
+					wattroff(this->board_win, COLOR_PAIR(BLOCK_BG2));
+				}
+			} else {
+				wattron(this->board_win, COLOR_PAIR(this->board_colour_matrix[i][j]));
+				wprintw(this->board_win, "  ");
+				wattroff(this->board_win, COLOR_PAIR(this->board_colour_matrix[i][j]));
+			}
+		}
+	}
+	wrefresh(this->board_win);
 }
 
-int GameBoard::getColumnCount() {
-	return this->column_count;
+void GameBoard::createGameBoardWindow() {
+	if (this->board_win != nullptr) {	// Already initialised
+		return;
+	}
+	int starty = (LINES - this->row_count) / 2;
+	int startx = (COLS - this->column_count * 2) / 2;
+	this->board_win = newwin(this->row_count, this->column_count * 2, starty, startx);
+	wrefresh(this->board_win);
 }
 

@@ -10,10 +10,11 @@ Tetris::Tetris(): board(), current_block(&(this->board)) {
 
 	/* Intialise Screen */
 	initscr();
-	cbreak();
-	noecho();
+	cbreak();																			/* TODO */
+	noecho();																			/* Do not echo typed key */
+	curs_set(0);																	/* Set Cursor Invisible */
 	// keypad(stdscr, true/*TRUE*/);
-	this->board.board_win = stdscr;
+	this->board.createGameBoardWindow();
 
 	if (has_colors() == FALSE) {
 		/* TODO: Change so that a black and white form of tetris can be played */
