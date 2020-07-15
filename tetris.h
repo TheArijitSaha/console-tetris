@@ -13,6 +13,7 @@ class Tetris {
 		//void printGameOver();
 	public:
 		Tetris();
+		~Tetris();
 		void loop();
 };
 

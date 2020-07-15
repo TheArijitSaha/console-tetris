@@ -9,8 +9,6 @@ using namespace std;
 TetBlock::TetBlock(GameBoard* board) {
 	srand(time(nullptr));
 	this->board = board;
-	//this->getNewBlock();
-	//this->stamp();
 }
 
 void TetBlock::stamp() {
@@ -35,23 +33,20 @@ void TetBlock::unstamp() {
 	}
 }
 
-/*bool TetBlock::isTouchingLeft()
-{
-		if(posY == 0) return true;//Reached the left vertical edge of board
-
-		int i,j;
-		for(i=0;i<=maxX;++i)
-		{
-				for(j=0;j<=maxY;++j)
-				{
-						if((bindedBoard->BoardMatrix[posX+i][posY+j-1] == FILLED_INT)&&(blockShape[i][j] == FILLED_INT)) return true;
-						if(blockShape[i][j] == FILLED_INT) break;
-				}
+bool TetBlock::isTouchingLeft() {
+	if (this->X == 0) return true;
+	this->unstamp();
+	for (int i = 0; i < 4; ++i) {
+		if (this->board->getCell(this->X + this->pattern[i].X - 1, this->Y + this->pattern[i].Y) == Full) {
+			this->stamp();
+			return true;
 		}
-		return false;
+	}
+	this->stamp();
+	return false;
 }
 
-bool TetBlock::isTouchingRight()
+/*bool TetBlock::isTouchingRight()
 {
 		if(posY + maxY == BOARD_COLUMNS-1) return true;//Reached the vertical edge of board
 
@@ -68,8 +63,7 @@ bool TetBlock::isTouchingRight()
 }*/
 
 bool TetBlock::isTouchingBelow() {
-	if (this->Y + this->height >= this->board->getRowCount())
-		return true;
+	if (this->Y + this->height >= this->board->getRowCount()) return true;
 	this->unstamp();
 	for (int i = 0; i < 4; ++i) {
 		if (this->board->getCell(this->X + this->pattern[i].X, this->Y + this->pattern[i].Y + 1) == Full) {
@@ -162,18 +156,17 @@ void TetBlock::getNewBlock() {
 				}
 				++cnt;
 		}while (cnt!=4);
+}*/
+
+void TetBlock::moveOneStepLeft() {
+	if (!this->isTouchingLeft()) {
+		this->unstamp();
+		--(this->X);
+		this->stamp();
+	}
 }
 
-void TetBlock::moveOneStepLeft()
-{
-		if(!isTouchingLeft())
-		{
-				unstamp();
-				--posY;
-				stamp();
-		}
-}
-void TetBlock::moveOneStepRight()
+/*void TetBlock::moveOneStepRight()
 {
 		if(!isTouchingRight())
 		{
@@ -184,7 +177,6 @@ void TetBlock::moveOneStepRight()
 }*/
 
 void TetBlock::moveOneStepDown() {
-	/* TODO what happens if touching below */
 	if (!this->isTouchingBelow()) {
 		this->unstamp();
 		++(this->Y);

@@ -1,12 +1,22 @@
 #include "tetris.h"
-#include <iostream>
+#include <ncurses.h>
 #include <ctime>
-//#include <conio.h>
 
 using namespace std;
 
 Tetris::Tetris(): board(), current_block(&(this->board)) {
 	this->current_block.getNewBlock();
+
+	/* Intialise Screen */
+	initscr();
+	cbreak();
+	noecho();
+	// keypad(stdscr, true/*TRUE*/);
+	this->board.board_win = stdscr;
+}
+
+Tetris::~Tetris() {
+	endwin();
 }
 
 /*void Tetris::printGameOver()
@@ -25,7 +35,7 @@ void Tetris::loop() {
 		clock_t t1 = clock(), t2 = clock();
 		do {
 			this->board.render();
-			while(/* TODO (!_kbhit())  && */((t2 - t1)<CLOCKS_PER_SEC)) {
+			while (/*(!(c = getchar() == '0')) && */((t2 - t1) < CLOCKS_PER_SEC)) {
 				t2 = clock();
 			}
 			/*if(_kbhit())

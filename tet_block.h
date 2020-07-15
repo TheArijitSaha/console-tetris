@@ -19,7 +19,7 @@ class TetBlock {
 
 		/* Sensory Methods */
 		// bool isTouchingLaterally();//is this block touching board or other block vertically??
-		// bool isTouchingLeft();//left edge of this block touching anything?
+		bool isTouchingLeft();
 		// bool isTouchingRight();//right edge of this block touching anything?
 		bool isTouchingBelow();
 		// bool isOverlapping();//Block overlapping with existing blocks?
@@ -27,7 +27,7 @@ class TetBlock {
 
 		/* Movement Methods */
 		void moveOneStepDown();
-		// void moveOneStepLeft();
+		void moveOneStepLeft();
 		// void moveOneStepRight();
 
 };

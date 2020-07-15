@@ -1,6 +1,7 @@
 #ifndef GAME_BOARD
 #define GAME_BOARD
 #include "constants.h"
+#include <ncurses.h>
 
 class GameBoard {
 	private:
@@ -14,6 +15,7 @@ class GameBoard {
 		GameBoard();
 		void render();
 		void erase();
+		WINDOW *board_win;	/*TODO change this to private*/
 
 		/* Getters */
 		Cell getCell(int, int);

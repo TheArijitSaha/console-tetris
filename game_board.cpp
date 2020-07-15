@@ -25,19 +25,21 @@ using namespace std;
 }
 
 /* -- */ void GameBoard::render() {
-	this->erase();
-	for (int k = 0; k < 8; ++k) printf("\n");	/* TODO */
+	clear();
+	wmove(this->board_win, 0 , 0);
 	for (int i = 0; i < this->row_count; ++i) {
-		for (int k = 0; k < 7; ++k) printf("\t");	/* TODO */
 		for (int j = 0; j < this->column_count; ++j) {
 			if (this->board_matrix[i][j] == Empty) {
-				printf("%s  %s", COLOUR_BG[(i + j) % 2], COLOUR_RESET);
+				///*TODO*/wprintw(this->board_win, "%s  %s", COLOUR_BG[(i + j) % 2], COLOUR_RESET);
+				wprintw(this->board_win, "..");
 			} else {
-				printf("%s  %s", COLOUR_CELL[this->board_colour_matrix[i][j]], COLOUR_RESET);
+				///*TODO*/wprintw(this->board_win, "%s  %s", COLOUR_CELL[this->board_colour_matrix[i][j]], COLOUR_RESET);
+				wprintw(this->board_win, "XX");
 			}
 		}
-		printf("\n");
+		wprintw(this->board_win, "\n");
 	}
+	refresh();
 }
 
 void GameBoard::erase() {
