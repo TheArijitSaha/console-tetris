@@ -29,7 +29,7 @@ void TetBlock::unstamp() {
 												 Empty);
 		this->board->setColour(this->X + this->pattern[i].X,
 													 this->Y + this->pattern[i].Y,
-													 None);
+													 BLOCK_NONE);
 	}
 }
 
@@ -100,7 +100,7 @@ void TetBlock::readPattern() {
 void TetBlock::getNewBlock() {
 	this->block_index = rand() % BLOCK_COUNT;
 	this->orientation_index = rand() % ORIENTATION_COUNT;
-	this->colour = static_cast<CellColour>(this->block_index + 1);
+	this->colour = static_cast<BlockColour>(this->block_index + 1);
 	this->readPattern();
 	this->Y = 0;
 	this->X = (this->width > 2 ? 3 : 4);

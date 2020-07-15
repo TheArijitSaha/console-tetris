@@ -10,13 +10,13 @@ using namespace std;
 	this->row_count = BOARD_ROWS;
 	this->column_count = BOARD_COLUMNS;
 	this->board_matrix = (Cell**) malloc(sizeof(Cell*) * this->row_count);
-	this->board_colour_matrix = (CellColour**) malloc(sizeof(CellColour*) * this->row_count);
+	this->board_colour_matrix = (BlockColour**) malloc(sizeof(BlockColour*) * this->row_count);
 	for (int i = 0; i < this->row_count; ++i) {
 		this->board_matrix[i] = (Cell*) malloc(sizeof(Cell) * this->column_count);
-		this->board_colour_matrix[i] = (CellColour*) malloc(sizeof(CellColour) * this->column_count);
+		this->board_colour_matrix[i] = (BlockColour*) malloc(sizeof(BlockColour) * this->column_count);
 		for (int j = 0; j < this->column_count; ++j) {
 			this->board_matrix[i][j] = Empty;
-			this->board_colour_matrix[i][j] = None;
+			this->board_colour_matrix[i][j] = BLOCK_NONE;
 		}
 		// slashableAtRow[i] = 0;
 	}
@@ -30,20 +30,20 @@ using namespace std;
 	for (int i = 0; i < this->row_count; ++i) {
 		for (int j = 0; j < this->column_count; ++j) {
 			if (this->board_matrix[i][j] == Empty) {
-				///*TODO*/wprintw(this->board_win, "%s  %s", COLOUR_BG[(i + j) % 2], COLOUR_RESET);
-				wprintw(this->board_win, "..");
+				if ((i + j) % 2 == 0) attron(COLOR_PAIR(BLOCK_BG1));
+				else attron(COLOR_PAIR(BLOCK_BG2));
+				wprintw(this->board_win, "  ");
+				if ((i + j) % 2 == 0) attroff(COLOR_PAIR(BLOCK_BG1));
+				else attroff(COLOR_PAIR(BLOCK_BG2));
 			} else {
-				///*TODO*/wprintw(this->board_win, "%s  %s", COLOUR_CELL[this->board_colour_matrix[i][j]], COLOUR_RESET);
-				wprintw(this->board_win, "XX");
+				attron(COLOR_PAIR(this->board_colour_matrix[i][j]));
+				wprintw(this->board_win, "  ");
+				attroff(COLOR_PAIR(this->board_colour_matrix[i][j]));
 			}
 		}
 		wprintw(this->board_win, "\n");
 	}
 	refresh();
-}
-
-void GameBoard::erase() {
-	system("clear");
 }
 
 Cell GameBoard::getCell(int X, int Y) {
@@ -54,7 +54,7 @@ void GameBoard::setCell(int X, int Y, Cell val) {
 	this->board_matrix[Y][X] = val;
 }
 
-void GameBoard::setColour(int X, int Y, CellColour val) {
+void GameBoard::setColour(int X, int Y, BlockColour val) {
  this->board_colour_matrix[Y][X] = val;
 }
 

@@ -8,7 +8,7 @@ class TetBlock {
 		GameBoard *board;
 		int X, Y, width, height;
 		int block_index, orientation_index;
-		CellColour colour;
+		BlockColour colour;
 	public:
 		TetBlock(GameBoard*);
 		void getNewBlock();

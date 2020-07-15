@@ -15,6 +15,7 @@ class Tetris {
 		Tetris();
 		~Tetris();
 		void loop();
+		void formColours();
 };
 
 #endif /* TETRIS */

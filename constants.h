@@ -21,21 +21,22 @@ enum CellColour {
 	Green,
 	Purple,
 	Red,
-	CELL_COLOUR_COUNT
+	BG1,
+	BG2
 };
 
-/* Colours */
-const char* const COLOUR_BG[] = { "\e[48;2;45;45;45m", "\e[48;2;40;40;40m" };
-const char COLOUR_RESET[] = "\033[0m";
-const char* const COLOUR_CELL[] = {
-	"" /* None */,
-	"\e[48;2;0;159;218m" /* Cyan -- I */,
-	"\e[48;2;0;101;189m" /* Blue -- J */,
-	"\e[48;2;255;121;0m" /* Orange -- L */,
-	"\e[48;2;254;203;0m" /* Yellow -- O */,
-	"\e[48;2;105;190;40m" /* Green -- S */,
-	"\e[48;2;149;45;152m" /* Purple -- T */,
-	"\e[48;2;237;41;57m" /* Red -- Z */
+/* Block Colour Pairs */
+enum BlockColour {
+	BLOCK_NONE,
+	BLOCK_CYAN,
+	BLOCK_BLUE,
+	BLOCK_ORANGE,
+	BLOCK_YELLOW,
+	BLOCK_GREEN,
+	BLOCK_PURPLE,
+	BLOCK_RED,
+	BLOCK_BG1,
+	BLOCK_BG2
 };
 
 /* Point */
