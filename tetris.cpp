@@ -10,10 +10,13 @@ Tetris::Tetris(): board(), current_block(&(this->board)) {
 
 	/* Intialise Screen */
 	initscr();
-	cbreak();																			/* TODO */
+	cbreak();																			/* Disable Line Buffering */
 	noecho();																			/* Do not echo typed key */
 	curs_set(0);																	/* Set Cursor Invisible */
-	// keypad(stdscr, true/*TRUE*/);
+	keypad(stdscr, TRUE);													/* For key values */
+	/* TODO: check if a very small delay improves rendering performance */
+	nodelay(stdscr, TRUE);												/* No wait on reading */
+	refresh();																		/* To flush stdscr so that other windows are loaded above it */
 	this->board.createGameBoardWindow();
 
 	if (has_colors() == FALSE) {
@@ -33,41 +36,40 @@ Tetris::~Tetris() {
 {
     std::cout<<"GAME OVER\n";
 }
+
 void Tetris::slashRoutine()
 {
     mainBoard.updateRoof();
     mainBoard.updateSlashIndices();
     mainBoard.slashRows();
 }*/
+
 void Tetris::loop() {
+	int pressed_key = ERR;
 	this->game_over = false;
+
 	while (!this->game_over) {
 		clock_t t1 = clock(), t2 = clock();
 		do {
 			this->board.render();
-			while (/*(!(c = getchar() == '0')) && */((t2 - t1) < CLOCKS_PER_SEC)) {
+			while (((pressed_key = getch()) == ERR) && ((t2 - t1) < CLOCKS_PER_SEC)) {
 				t2 = clock();
 			}
-			/*if(_kbhit())
-			{
-					pressed_key = _getch();
-					switch(pressed_key)
-					{
-							case KEY_LEFT:  mainBoard.eraseBoard();
-															currentBlock.moveOneStepLeft();
-															mainBoard.printBoard(currentHandle);
-							break;
-							case KEY_RIGHT: mainBoard.eraseBoard();
-															currentBlock.moveOneStepRight();
-															mainBoard.printBoard(currentHandle);
-							break;
-							case KEY_UP:    mainBoard.eraseBoard();
-															currentBlock.changeCurrentOrientation();
-															mainBoard.printBoard(currentHandle);
-							break;
-							default: break;
-					}
-			}*/
+			if(pressed_key != ERR) {
+				switch(pressed_key) {
+					case KEY_DOWN: this->current_block.moveOneStepDown();
+												 break;
+					/*case KEY_RIGHT: mainBoard.eraseBoard();
+													currentBlock.moveOneStepRight();
+													mainBoard.printBoard(currentHandle);
+					break;
+					case KEY_UP:    mainBoard.eraseBoard();
+													currentBlock.changeCurrentOrientation();
+													mainBoard.printBoard(currentHandle);
+					break;*/
+					default: break;
+				}
+			}
 			t2 = clock();
 		} while (t2 - t1 < CLOCKS_PER_SEC);
 		

@@ -2,12 +2,12 @@
 #include "game_board.h"
 
 using namespace std;
-//WINDOW* local_win;
-/* -- */ GameBoard::GameBoard() {
-	this->board_win = nullptr;
 
+GameBoard::GameBoard() {
+	this->board_win = nullptr;
 	this->row_count = BOARD_ROWS;
 	this->column_count = BOARD_COLUMNS;
+
 	this->board_matrix = (Cell**) malloc(sizeof(Cell*) * this->row_count);
 	this->board_colour_matrix = (BlockColour**) malloc(sizeof(BlockColour*) * this->row_count);
 	for (int i = 0; i < this->row_count; ++i) {

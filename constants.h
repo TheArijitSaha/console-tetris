@@ -85,15 +85,5 @@ const Point block_pattern[BLOCK_COUNT][ORIENTATION_COUNT][4] = {
 		{ { 0, 1 }, { 1, 0 }, { 1, 1 }, { 2, 0 } } }
 };
 
-/*
-#define COLOR_RANGE 16
-#define REDUCED_COLOR_RANGE 5
-
-#define KEY_UP 'w'
-#define KEY_DOWN 's'
-#define KEY_LEFT 'a'
-#define KEY_RIGHT 'd'
-
-    const int validColorList[] = {1,2,4,6,7};
-*/
 #endif /* CONSTANTS */
+

@@ -8,13 +8,13 @@ class GameBoard {
 		int row_count, column_count, filled_height;
 		Cell **board_matrix;
 		BlockColour **board_colour_matrix;
+		WINDOW *board_win;
 		//int slashableAtRow[BOARD_ROWS];//stores 1 if ith row is slashable, else stores 0
 		//bool isFilledRow(int i);//returns if its row is filled or not.
 		//bool isSlashableRow(int i); //returns true if i'th row is slashable.
 	public:
 		GameBoard();
 		~GameBoard();
-		WINDOW *board_win;	/*TODO change this to private*/
 
 		/* Getters */
 		Cell getCell(int, int);
@@ -35,5 +35,5 @@ class GameBoard {
 		void createGameBoardWindow();
 };
 
-//void initializeBlockMatrix();
 #endif /* GAME_BOARD */
+
