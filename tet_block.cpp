@@ -31,6 +31,19 @@ void TetBlock::unstamp() {
 	}
 }
 
+bool TetBlock::isTouchingRight() {
+	if (this->X + this->width >= this->board->getColumnCount()) return true;
+	this->unstamp();
+	for (int i = 0; i < 4; ++i) {
+		if (this->board->getCell(this->X + this->pattern[i].X + 1, this->Y + this->pattern[i].Y) == Full) {
+			this->stamp();
+			return true;
+		}
+	}
+	this->stamp();
+	return false;
+}
+
 bool TetBlock::isTouchingLeft() {
 	if (this->X == 0) return true;
 	this->unstamp();
@@ -43,22 +56,6 @@ bool TetBlock::isTouchingLeft() {
 	this->stamp();
 	return false;
 }
-
-/*bool TetBlock::isTouchingRight()
-{
-		if(posY + maxY == BOARD_COLUMNS-1) return true;//Reached the vertical edge of board
-
-		int i,j;
-		for(i=0;i<=maxX;++i)
-		{
-				for(j=maxY;j>=0;--j)
-				{
-						if((bindedBoard->BoardMatrix[posX+i][posY+j+1] == FILLED_INT) && (blockShape[i][j] == FILLED_INT)) return true;
-						if(blockShape[i][j] == FILLED_INT) break;
-				}
-		}
-		return false;
-}*/
 
 bool TetBlock::isTouchingBelow() {
 	if (this->Y + this->height >= this->board->getRowCount()) return true;
@@ -156,6 +153,7 @@ void TetBlock::getNewBlock() {
 		}while (cnt!=4);
 }*/
 
+/* Movement methods */
 void TetBlock::moveOneStepLeft() {
 	if (!this->isTouchingLeft()) {
 		this->unstamp();
@@ -164,15 +162,13 @@ void TetBlock::moveOneStepLeft() {
 	}
 }
 
-/*void TetBlock::moveOneStepRight()
-{
-		if(!isTouchingRight())
-		{
-				unstamp();
-				++posY;
-				stamp();
-		}
-}*/
+void TetBlock::moveOneStepRight() {
+	if (!this->isTouchingRight()) {
+		this->unstamp();
+		++(this->X);
+		this->stamp();
+	}
+}
 
 void TetBlock::moveOneStepDown() {
 	if (!this->isTouchingBelow()) {

@@ -57,13 +57,13 @@ void Tetris::loop() {
 			}
 			if(pressed_key != ERR) {
 				switch(pressed_key) {
-					case KEY_DOWN: this->current_block.moveOneStepDown();
-												 break;
-					/*case KEY_RIGHT: mainBoard.eraseBoard();
-													currentBlock.moveOneStepRight();
-													mainBoard.printBoard(currentHandle);
-					break;
-					case KEY_UP:    mainBoard.eraseBoard();
+					case KEY_DOWN:	this->current_block.moveOneStepDown();
+													break;
+					case KEY_LEFT:	this->current_block.moveOneStepLeft();
+													break;
+					case KEY_RIGHT: this->current_block.moveOneStepRight();
+													break;
+					/*case KEY_UP:    mainBoard.eraseBoard();
 													currentBlock.changeCurrentOrientation();
 													mainBoard.printBoard(currentHandle);
 					break;*/
