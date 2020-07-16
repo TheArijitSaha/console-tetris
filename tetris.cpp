@@ -63,10 +63,8 @@ void Tetris::loop() {
 													break;
 					case KEY_RIGHT: this->current_block.moveOneStepRight();
 													break;
-					/*case KEY_UP:    mainBoard.eraseBoard();
-													currentBlock.changeCurrentOrientation();
-													mainBoard.printBoard(currentHandle);
-					break;*/
+					case KEY_UP:		this->current_block.changeOrientation();
+													break;
 					default: break;
 				}
 			}

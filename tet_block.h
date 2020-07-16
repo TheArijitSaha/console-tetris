@@ -11,25 +11,25 @@ class TetBlock {
 		BlockColour colour;
 	public:
 		TetBlock(GameBoard*);
-		void getNewBlock();
-		void readPattern();
-		void stamp();
-		void unstamp();
-		// void changeCurrentOrientation();//Rotate the current block assigned to this TetBlock
-
+		
 		/* Sensory Methods */
-		// bool isTouchingLaterally();//is this block touching board or other block vertically??
 		bool isTouchingLeft();
 		bool isTouchingRight();
 		bool isTouchingBelow();
-		// bool isOverlapping();//Block overlapping with existing blocks?
-
+		bool isOutOfBounds();
+		bool isOverlapping();
 
 		/* Movement Methods */
 		void moveOneStepDown();
 		void moveOneStepLeft();
 		void moveOneStepRight();
-
+		void changeOrientation();
+		
+		/* Functionality Methods */
+		void getNewBlock();
+		void readPattern();
+		void stamp();
+		void unstamp();
 };
 
 #endif /* TET_BLOCK */

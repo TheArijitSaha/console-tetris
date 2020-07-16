@@ -31,6 +31,12 @@ GameBoard::~GameBoard() {
 
 /* Getters */
 Cell GameBoard::getCell(int X, int Y) {
+	if ((X < 0) || (X >= this->column_count) || (Y < 0) || (Y >= this->row_count)) {
+		endwin();
+		fprintf(stderr, "PROGRAM ERROR: Invalid cell Coordinates (%d, %d)\n", X, Y);
+		exit(EXIT_FAILURE);
+	}
+
 	return this->board_matrix[Y][X];
 }
 
@@ -44,6 +50,12 @@ int GameBoard::getColumnCount() {
 
 /* Setters */
 void GameBoard::setCell(int X, int Y, Cell val) {
+	if ((X < 0) || (X >= this->column_count) || (Y < 0) || (Y >= this->row_count)) {
+		endwin();
+		fprintf(stderr, "PROGRAM ERROR: Invalid cell Coordinates (%d, %d)\n", X, Y);
+		exit(EXIT_FAILURE);
+	}
+
 	this->board_matrix[Y][X] = val;
 }
 

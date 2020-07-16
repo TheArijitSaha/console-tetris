@@ -4,11 +4,19 @@
 
 This project is a remake of the classic game of Tetris for the linux console.
 
-Tasks:
+### Tasks
 
 - [ ] Refactor for Linux
+	- [x] ~~Discard Windows Functions~~
+	- [x] ~~Refactor rendering~~
+	- [x] ~~Refactor key movements (ncurses used here)~~
+	- [ ] Refactor game over routine
+	- [ ] Refactor line clearing routines
+- [ ] Refactor class heirarchy
+- [ ] Add Scoreboard
+- [ ] Add next block window
 
-Steps to launch:
+### Launch
 
 - launch `tetris_runner` executable
 
