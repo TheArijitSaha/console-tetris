@@ -4,6 +4,8 @@
 
 This project is a remake of the classic game of Tetris for the linux console.
 
+![Screengrab of the game](Sample_1.png)
+
 ### Tasks
 
 - [ ] Refactor for Linux
