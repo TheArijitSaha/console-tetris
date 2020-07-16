@@ -1,0 +1,4 @@
+tetris_runner
+*.o
+*.swp
+*.gch
