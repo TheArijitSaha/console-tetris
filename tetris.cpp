@@ -35,15 +35,9 @@ Tetris::~Tetris() {
 /*void Tetris::printGameOver()
 {
     std::cout<<"GAME OVER\n";
-}
-
-void Tetris::slashRoutine()
-{
-    mainBoard.updateRoof();
-    mainBoard.updateSlashIndices();
-    mainBoard.slashRows();
 }*/
 
+/* Methods */
 void Tetris::loop() {
 	int pressed_key = ERR;
 	this->game_over = false;
@@ -72,11 +66,11 @@ void Tetris::loop() {
 		} while (t2 - t1 < CLOCKS_PER_SEC);
 		
 		if (this->current_block.isTouchingBelow()) {
-			//slashRoutine();
+			this->board.lineClear();
+			this->current_block.getNewBlock();
 			//if(currentBlock.isOverlapping()) gameOver = true;
 			//if(mainBoard.roof <0) gameOver = true;
 				//else currentBlock.stamp();
-			this->current_block.getNewBlock();
 		} else {
 			this->current_block.moveOneStepDown();
 		}
