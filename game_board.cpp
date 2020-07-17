@@ -17,10 +17,7 @@ GameBoard::GameBoard() {
 			this->board_matrix[i][j] = Empty;
 			this->board_colour_matrix[i][j] = BLOCK_NONE;
 		}
-		// slashableAtRow[i] = 0;
 	}
-	this->filled_height = 0;
-	// toBeSlashedNow = false;
 }
 
 GameBoard::~GameBoard() {
@@ -60,96 +57,14 @@ void GameBoard::setCell(int X, int Y, Cell val) {
 }
 
 void GameBoard::setColour(int X, int Y, BlockColour val) {
+	if ((X < 0) || (X >= this->column_count) || (Y < 0) || (Y >= this->row_count)) {
+		endwin();
+		fprintf(stderr, "PROGRAM ERROR: Invalid cell Coordinates (%d, %d)\n", X, Y);
+		exit(EXIT_FAILURE);
+	}
+
  this->board_colour_matrix[Y][X] = val;
 }
-
-/* -- */ /*bool GameBoard::isFilledRow(int i)
-{
-		int j;
-		for(j=0;j<BOARD_COLUMNS;++j)
-		{
-				if(BoardMatrix[i][j] == FILLED_INT) return true;
-		}
-		return false;
-}*/
-
-/*bool GameBoard::isSlashableRow(int i)
-{
-		int j;
-		for(j=0;j<BOARD_COLUMNS;++j)
-		{
-				if(BoardMatrix[i][j] == EMPTY_INT) return false;
-		}
-		return true;
-}
-
-void GameBoard::updateRoof()
-{
-		while(roof>=0 && isFilledRow(roof)) --roof;
-}
-
-void GameBoard::updateSlashIndices()
-{
-		int i;
-		for(i=roof+1;i<BOARD_ROWS;++i)
-		{
-				if(isSlashableRow(i))
-				{
-						slashableAtRow[i] = 1;
-						toBeSlashedNow = true;
-				}
-		}
-}
-
-void GameBoard::slashRows()
-{
-		if( !toBeSlashedNow) return;
-
-		toBeSlashedNow=false;//Reset toBeSlashedNow for the next run
-		int i1,i2,j;
-		int tempRoof = roof;
-		i1=i2=BOARD_ROWS-1;
-		while(i2>roof && i1>roof)
-		{
-				while(slashableAtRow[i2])//slash off adjacent rows...
-				{
-						slashableAtRow[i2]=0;//reset the slash index array.
-						//for(j=0;j<BOARD_COLUMNS;++j)
-						//{
-								//reset i2 row
-						//		BoardMatrix[i2][j] = EMPTY_CHAR;
-						//		BoardColorMatrix[i2][j]=WHITE;
-						//}
-						--i2;
-						++tempRoof;//roof goes down for each slash
-				}
-				//Bring down rest of the blocks
-				if(i1!=i2 && i2>roof)
-				{
-						for(j=0;j<BOARD_COLUMNS;++j)
-						{
-								//copy from i2 to i1 row
-								BoardMatrix[i1][j]=BoardMatrix[i2][j];
-								BoardColorMatrix[i1][j]=BoardColorMatrix[i2][j];
-								//reset i2 row
-							 // BoardMatrix[i2][j] = EMPTY_CHAR;
-							//	BoardColorMatrix[i2][j]=WHITE;
-						}
-				}
-				--i1;
-				--i2;
-		}
-		while(i1>roof)
-		{
-				for(j=0;j<BOARD_COLUMNS;++j)
-				{
-						BoardMatrix[i1][j] = EMPTY_INT;
-						BoardColorMatrix[i1][j]=WHITE;
-				}
-				--i1;
-		}
-		roof = tempRoof;//update roof
-}*/
 
 /* Methods */
 void GameBoard::render() {
@@ -187,5 +102,58 @@ void GameBoard::createGameBoardWindow() {
 	int startx = (COLS - this->column_count * 2) / 2;
 	this->board_win = newwin(this->row_count, this->column_count * 2, starty, startx);
 	wrefresh(this->board_win);
+}
+
+void GameBoard::lineClear() {
+	int rows_cleared_below = 0;
+	for (int row = this->row_count - 1; row >= 0; --row) {
+		if (this->isFilledRow(row)) {
+			this->clearRow(row);
+			rows_cleared_below++;
+		} else {
+			this->copyRow(row, row + rows_cleared_below);
+		}
+	}
+}
+
+bool GameBoard::isFilledRow(int row_number) {
+	if ((row_number < 0) || (row_number >= this->row_count)) {
+		endwin();
+		fprintf(stderr, "PROGRAM ERROR: Invalid row number -> %d\n", row_number);
+		exit(EXIT_FAILURE);
+	}
+
+	for (int col = 0; col < this->column_count; ++col) {
+		if (this->board_matrix[row_number][col] == Empty) return false;
+	}
+
+	return true;
+}
+
+void GameBoard::clearRow(int row_number) {
+	if ((row_number < 0) || (row_number >= this->row_count)) {
+		endwin();
+		fprintf(stderr, "PROGRAM ERROR: Invalid row number -> %d\n", row_number);
+		exit(EXIT_FAILURE);
+	}
+
+	for (int col = 0; col < this->column_count; ++col) {
+		this->board_matrix[row_number][col] = Empty;
+	}
+}
+
+void GameBoard::copyRow(int source_row, int target_row) {
+	if ((source_row < 0) || (target_row < 0)
+			|| (source_row >= this->row_count)
+			|| (target_row >= this->row_count)) {
+		endwin();
+		fprintf(stderr, "PROGRAM ERROR: Invalid row copy pair: %d -> %d\n", source_row, target_row);
+		exit(EXIT_FAILURE);
+	}
+
+	for (int col = 0; col < this->column_count; ++col) {
+		this->board_matrix[target_row][col] = this->board_matrix[source_row][col];
+		this->board_colour_matrix[target_row][col] = this->board_colour_matrix[source_row][col];
+	}
 }
 

@@ -8,12 +8,12 @@ class Tetris {
 		GameBoard board;
 		bool game_over;
 		TetBlock current_block;
-		//char pressed_key;
-		//void slashRoutine();
 		//void printGameOver();
 	public:
 		Tetris();
 		~Tetris();
+		
+		/* Methhods */
 		void loop();
 		void formColours();
 };

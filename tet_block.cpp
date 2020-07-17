@@ -153,6 +153,8 @@ void TetBlock::changeOrientation() {
 		stamp();
 		return;
 	}
+
+	// If no rotated orientation works, stamp original position itself
 	this->X = previous_X;
 	this->Y = previous_Y;
 	this->orientation_index = previous_orientation;
