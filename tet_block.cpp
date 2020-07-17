@@ -112,42 +112,46 @@ void TetBlock::changeOrientation() {
 		this->X = previous_X + (previous_width - this->width) / 2;
 		this->Y = previous_Y + (previous_height - this->height) / 2;
 
-		// try on
+		// Correct out of bounds in horizontal axis
+		this->X = max(0, this->X);
+		this->X = min(this->board->getColumnCount() - this->width, this->X);
+
+		// Correct out of bounds in vertical axis
+		/* While performing Y-axis correction, the block should not be
+		 * pushed upwards, otherwise this can result in the player
+		 * doing so repeatedly to keep an I-block from reaching the floor.
+		 * So, only downward adjustment is done.
+		 */
+		this->Y = max(0, this->Y);
+
+		// Correct overlapping in horizontal axis
+		/* This loop checks if the block is overlapping with another block,
+		 * If yes, it goes onto check if positions X + 1, X - 1, X + 2, X - 2
+		 * are compatible (in that particular order) and breaks whenever no
+		 * overlapping is found.
+		 * If none of the five positions (including the one calculated originally)
+		 * are compatible, then this orientation is not possible.
+		 */
+		for (i = 1; i <= 4; ++i) {
+			if ((!this->isOutOfBounds()) && (!this->isOverlapping())) break;
+
+			/* The following if-else generates the next relative positions in
+			 * this order as the loop iterates:
+			 *     +1, -1, +2, -2
+			 */
+			if (i % 2 == 1) {
+				this->X += i;
+			} else {
+				this->X -= i;
+			}
+		}
+
 		if ((this->isOutOfBounds()) || (this->isOverlapping())) {
 			continue;
 		}
 
 		stamp();
 		return;
-		// if possible update orientation index and break
-		// do
-		// {
-		// 		//store current position of the block
-		// 		oldPosX = posX;
-		// 		oldPosY = posY;
-		// 		//rotate the block
-		// 		orientation_index = (orientation_index+1)%ORIENTATION_COUNT;
-		// 		reSample();
-		// 		//reposition if out of bounds
-		// 		if(posY>BOARD_COLUMNS-1-maxY) posY=BOARD_COLUMNS-1-maxY;
-		// 		//reposition if overlapping
-		// 		overlapX = maxX+1;
-		// 		overlapY = maxY+1;
-
-		// 		for(i=0;i<=maxX;++i)
-		// 		{
-		// 				for(j=0;j<=maxY;++j)
-		// 				{
-		// 						if((bindedBoard->BoardMatrix[posX+i][posY+j] == FILLED_INT)&& (blockShape[i][j] == FILLED_INT))
-		// 						{
-		// 								if(i<overlapX) overlapX = i;
-		// 								if(j<overlapY) overlapY = j;
-		// 						}
-		// 				}
-		// 		}
-
-		// 		posX = posX-maxX-1+overlapX;
-		// 		posY = posY-maxY-1+overlapY;
 	}
 	this->X = previous_X;
 	this->Y = previous_Y;
