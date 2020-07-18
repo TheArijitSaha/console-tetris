@@ -8,19 +8,30 @@ This project is a remake of the classic game of Tetris for the linux console.
 
 ### Tasks
 
-- [ ] Refactor for Linux
+- [x] ~~Refactor for Linux~~
 	- [x] ~~Discard Windows Functions~~
 	- [x] ~~Refactor rendering~~
 	- [x] ~~Refactor key movements (ncurses used here)~~
-	- [x] ~~Refactor line clearing routines~~
-	- [ ] Refactor game over routine
-- [ ] Refactor class heirarchy
+	- [x] ~~Refactor line clearing~~
+	- [x] ~~Refactor Game over functions~~
 - [ ] Add Scoreboard
 - [ ] Add next block window
 
-### Launch
+### Build
 
-- launch `tetris_runner` executable
+- Clone this repository
+- Open the directory in your terminal
+- Do:
+	```
+	make clean && make
+	```
+
+### Run
+
+- Launch tetris_runner executable:
+	```
+	./tetris_runner
+	```
 
 <!-- All constant values and look up tables are in the `gameconstants.h` header file. More specifically, it contains a 2D integer array `BlockMatrix` which stores all Tetris blocks, each orientation of each block taking 4x4 locations.
 
