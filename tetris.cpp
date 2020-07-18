@@ -1,5 +1,7 @@
 #include "tetris.h"
+#include "tetris_exceptions.h"
 #include <cstdlib>
+#include <unistd.h>
 #include <ctime>
 #include <ncurses.h>
 
@@ -32,11 +34,6 @@ Tetris::~Tetris() {
 	endwin();
 }
 
-/*void Tetris::printGameOver()
-{
-    std::cout<<"GAME OVER\n";
-}*/
-
 /* Methods */
 void Tetris::loop() {
 	int pressed_key = ERR;
@@ -67,15 +64,17 @@ void Tetris::loop() {
 		
 		if (this->current_block.isTouchingBelow()) {
 			this->board.lineClear();
-			this->current_block.getNewBlock();
-			//if(currentBlock.isOverlapping()) gameOver = true;
-			//if(mainBoard.roof <0) gameOver = true;
-				//else currentBlock.stamp();
+			try {
+				this->current_block.getNewBlock();
+			} catch (tetriminoOverlapException& toe) {
+				this->game_over = true;
+			}
 		} else {
 			this->current_block.moveOneStepDown();
 		}
 	}
-	// printGameOver();
+	this->board.printGameOver();
+	sleep(2);
 }
 
 void Tetris::formColours() {

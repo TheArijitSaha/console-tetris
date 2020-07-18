@@ -29,6 +29,9 @@ class GameBoard {
 		bool isFilledRow(int);
 		void clearRow(int);
 		void copyRow(int, int);
+		bool isCellFull(int, int);
+		bool isCellEmpty(int, int);
+		void printGameOver();
 };
 
 #endif /* GAME_BOARD */
