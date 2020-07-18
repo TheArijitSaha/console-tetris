@@ -1,6 +1,7 @@
 #include "tetris.h"
 #include "tetris_exceptions.h"
 #include <cstdlib>
+#include <unistd.h>
 #include <ctime>
 #include <ncurses.h>
 

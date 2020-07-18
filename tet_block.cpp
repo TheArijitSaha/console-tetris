@@ -96,21 +96,21 @@ void TetBlock::moveOneStepRight() {
 }
 
 void TetBlock::changeOrientation() {
-	int previous_orientation = this->orientation_index;
-	int previous_X = this->X;
-	int previous_Y = this->Y;
-	int previous_height = this->height;
-	int previous_width = this->width;
+	int original_orientation = this->orientation_index;
+	int original_X = this->X;
+	int original_Y = this->Y;
+	int original_height = this->height;
+	int original_width = this->width;
 
 	unstamp();
-	for (int i = 1; i < 4; ++i) {
+	for (int i = 1; i <= 4; ++i) {
 		// rotate
-		this->orientation_index = (this->orientation_index + i) % ORIENTATION_COUNT;
+		this->orientation_index = (original_orientation + i) % ORIENTATION_COUNT;
 		this->readPattern();
 
 		// fix position
-		this->X = previous_X + (previous_width - this->width) / 2;
-		this->Y = previous_Y + (previous_height - this->height) / 2;
+		this->X = original_X + (original_width - this->width) / 2;
+		this->Y = original_Y + (original_height - this->height) / 2;
 
 		// Correct out of bounds in horizontal axis
 		this->X = max(0, this->X);
@@ -132,17 +132,17 @@ void TetBlock::changeOrientation() {
 		 * If none of the five positions (including the one calculated originally)
 		 * are compatible, then this orientation is not possible.
 		 */
-		for (i = 1; i <= 4; ++i) {
+		for (int j = 1; j <= 4; ++j) {
 			if ((!this->isOutOfBounds()) && (!this->isOverlapping())) break;
 
 			/* The following if-else generates the next relative positions in
 			 * this order as the loop iterates:
 			 *     +1, -1, +2, -2
 			 */
-			if (i % 2 == 1) {
-				this->X += i;
+			if (j % 2 == 1) {
+				this->X += j;
 			} else {
-				this->X -= i;
+				this->X -= j;
 			}
 		}
 
@@ -155,9 +155,9 @@ void TetBlock::changeOrientation() {
 	}
 
 	// If no rotated orientation works, stamp original position itself
-	this->X = previous_X;
-	this->Y = previous_Y;
-	this->orientation_index = previous_orientation;
+	this->X = original_X;
+	this->Y = original_Y;
+	this->orientation_index = original_orientation;
 	this->readPattern();
 	stamp();
 }
