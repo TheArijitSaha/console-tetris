@@ -1,4 +1,5 @@
 #include <iostream>
+#include <unistd.h>
 #include "game_board.h"
 
 using namespace std;
@@ -155,5 +156,48 @@ void GameBoard::copyRow(int source_row, int target_row) {
 		this->board_matrix[target_row][col] = this->board_matrix[source_row][col];
 		this->board_colour_matrix[target_row][col] = this->board_colour_matrix[source_row][col];
 	}
+}
+
+bool GameBoard::isCellFull(int X, int Y) {
+	if ((X < 0) || (X >= this->column_count) || (Y < 0) || (Y >= this->row_count)) {
+		endwin();
+		fprintf(stderr, "PROGRAM ERROR: Invalid cell Coordinates (%d, %d)\n", X, Y);
+		exit(EXIT_FAILURE);
+	}
+
+	return (this->board_matrix[Y][X] == Full);
+}
+
+bool GameBoard::isCellEmpty(int X, int Y) {
+	if ((X < 0) || (X >= this->column_count) || (Y < 0) || (Y >= this->row_count)) {
+		endwin();
+		fprintf(stderr, "PROGRAM ERROR: Invalid cell Coordinates (%d, %d)\n", X, Y);
+		exit(EXIT_FAILURE);
+	}
+
+	return (this->board_matrix[Y][X] == Empty);
+}
+
+void GameBoard::printGameOver() {
+	int message_height = 5;
+	int message_width = 12;
+	int message_X = (this->column_count * 2 - message_width)/ 2;
+	int message_Y = (this->row_count - message_height)/ 2;
+
+	wattron(this->board_win, A_STANDOUT);
+	wattron(this->board_win, A_BOLD);
+	wmove(this->board_win, message_Y, message_X);
+	wprintw(this->board_win, "           ");
+	wmove(this->board_win, message_Y + 1, message_X);
+	wprintw(this->board_win, "  G A M E  ");
+	wmove(this->board_win, message_Y + 2, message_X);
+	wprintw(this->board_win, "           ");
+	wmove(this->board_win, message_Y + 3, message_X);
+	wprintw(this->board_win, "  O V E R  ");
+	wmove(this->board_win, message_Y + 4, message_X);
+	wprintw(this->board_win, "           ");
+	wattroff(this->board_win, A_BOLD);
+	wattroff(this->board_win, A_STANDOUT);
+	wrefresh(this->board_win);
 }
 

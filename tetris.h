@@ -8,12 +8,11 @@ class Tetris {
 		GameBoard board;
 		bool game_over;
 		TetBlock current_block;
-		//void printGameOver();
 	public:
 		Tetris();
 		~Tetris();
 		
-		/* Methhods */
+		/* Methods */
 		void loop();
 		void formColours();
 };

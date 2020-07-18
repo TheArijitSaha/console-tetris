@@ -184,6 +184,10 @@ void TetBlock::readPattern() {
 
 void TetBlock::stamp() {
 	for (int i = 0; i < 4; ++i) {
+		if (this->board->isCellFull(this->X + this->pattern[i].X,
+																this->Y + this->pattern[i].Y)) {
+			throw tetriminoOverlapException();
+		}
 		this->board->setCell(this->X + this->pattern[i].X,
 												 this->Y + this->pattern[i].Y,
 												 Full);
