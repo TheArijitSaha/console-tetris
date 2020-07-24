@@ -22,6 +22,7 @@ class Tetris {
 		
 		/* Methods */
 		void loop();
+		void updateScore(int);
 		void formColours();
 };
 

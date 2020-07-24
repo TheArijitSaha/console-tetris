@@ -6,6 +6,7 @@
 class ScoreBoard {
 	private:
 		const int height, width;
+		int rendered_score;
 		WINDOW *score_win;
 	public:
 		ScoreBoard();
@@ -14,6 +15,7 @@ class ScoreBoard {
 		/* Methods */
 		void render();
 		void createWindow(int, int);
+		void update(int);
 };
 
 #endif /* SCORE_BOARD */

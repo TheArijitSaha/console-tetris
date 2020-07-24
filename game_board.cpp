@@ -105,16 +105,19 @@ void GameBoard::render() {
 	wrefresh(this->board_win);
 }
 
-void GameBoard::lineClear() {
-	int rows_cleared_below = 0;
+int GameBoard::lineClear() {
+	int rows_cleared = 0;
+	
 	for (int row = this->row_count - 1; row >= 0; --row) {
 		if (this->isFilledRow(row)) {
 			this->clearRow(row);
-			rows_cleared_below++;
+			rows_cleared++;
 		} else {
-			this->copyRow(row, row + rows_cleared_below);
+			this->copyRow(row, row + rows_cleared);
 		}
 	}
+
+	return rows_cleared;
 }
 
 bool GameBoard::isFilledRow(int row_number) {

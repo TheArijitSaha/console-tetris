@@ -85,19 +85,37 @@ void Tetris::loop() {
 		} while (t2 - t1 < CLOCKS_PER_SEC);
 		
 		if (this->current_block.isTouchingBelow()) {
-			this->game_board.lineClear();
+			int linesCleared = this->game_board.lineClear();
+			this->updateScore(linesCleared);
+
 			try {
 				this->current_block.getNewBlock();
 			} catch (tetriminoOverlapException& toe) {
 				this->game_over = true;
 			}
-			this->score_board.render();
 		} else {
 			this->current_block.moveOneStepDown();
 		}
 	}
+
 	this->game_board.printGameOver();
 	sleep(2);
+}
+
+void Tetris::updateScore(int linesCleared) {
+	switch(linesCleared) {
+		case 4:	this->score += 800 * this->getLevel();
+						break;
+		case 3:	this->score += 500 * this->getLevel();
+						break;
+		case 2:	this->score += 300 * this->getLevel();
+						break;
+		case 1:	this->score += 100 * this->getLevel();
+						break;
+	}
+
+	this->line_clears += linesCleared;
+	this->score_board.update(this->score);
 }
 
 void Tetris::formColours() {
