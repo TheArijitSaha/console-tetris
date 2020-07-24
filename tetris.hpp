@@ -1,8 +1,8 @@
 #ifndef TETRIS
 #define TETRIS
-#include "game_board.h"
-#include "score_board.h"
-#include "tet_block.h"
+#include "game_board.hpp"
+#include "score_board.hpp"
+#include "tet_block.hpp"
 
 class Tetris {
 	private:

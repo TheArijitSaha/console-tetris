@@ -1,5 +1,5 @@
 #include <iostream>
-#include "game_board.h"
+#include "game_board.hpp"
 
 using namespace std;
 

@@ -1,5 +1,5 @@
-#include "tetris.h"
-#include "tetris_exceptions.h"
+#include "tetris.hpp"
+#include "tetris_exceptions.hpp"
 #include <cstdlib>
 #include <unistd.h>
 #include <ctime>

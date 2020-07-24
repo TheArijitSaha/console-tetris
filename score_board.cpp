@@ -1,5 +1,5 @@
 #include <iostream>
-#include "score_board.h"
+#include "score_board.hpp"
 
 using namespace std;
 

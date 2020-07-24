@@ -1,6 +1,6 @@
 #ifndef GAME_BOARD
 #define GAME_BOARD
-#include "constants.h"
+#include "constants.hpp"
 #include <ncurses.h>
 
 class GameBoard {
