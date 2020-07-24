@@ -1,5 +1,5 @@
 #include <iostream>
-#include "game_board.h"
+#include "game_board.hpp"
 
 using namespace std;
 
@@ -67,8 +67,19 @@ void GameBoard::setColour(int X, int Y, BlockColour val) {
 }
 
 /* Methods */
+void GameBoard::createWindow(int screen_height, int screen_width) {
+	if (this->board_win != nullptr) {	// Already initialised
+		return;
+	}
+	int starty = (screen_height - this->row_count) / 2;
+	int startx = (screen_width - this->column_count * 2) / 2;
+	this->board_win = newwin(this->row_count, this->column_count * 2, starty, startx);
+	wbkgd(this->board_win, COLOR_PAIR(BLOCK_BG1));
+	wrefresh(this->board_win);
+}
+
 void GameBoard::render() {
-	wclear(this->board_win);
+	werase(this->board_win);
 	for (int i = 0; i < this->row_count; ++i) {
 		wmove(this->board_win, i, 0);
 		for (int j = 0; j < this->column_count; ++j) {
@@ -91,16 +102,6 @@ void GameBoard::render() {
 			}
 		}
 	}
-	wrefresh(this->board_win);
-}
-
-void GameBoard::createGameBoardWindow() {
-	if (this->board_win != nullptr) {	// Already initialised
-		return;
-	}
-	int starty = (LINES - this->row_count) / 2;
-	int startx = (COLS - this->column_count * 2) / 2;
-	this->board_win = newwin(this->row_count, this->column_count * 2, starty, startx);
 	wrefresh(this->board_win);
 }
 
@@ -179,7 +180,7 @@ bool GameBoard::isCellEmpty(int X, int Y) {
 
 void GameBoard::printGameOver() {
 	int message_height = 5;
-	int message_width = 12;
+	int message_width = 11;
 	int message_X = (this->column_count * 2 - message_width)/ 2;
 	int message_Y = (this->row_count - message_height)/ 2;
 

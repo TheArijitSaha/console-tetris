@@ -1,5 +1,5 @@
 #include <iostream>
-#include "tet_block.h"
+#include "tet_block.hpp"
 #include <ctime>
 
 using namespace std;

@@ -1,6 +1,6 @@
 #ifndef GAME_BOARD
 #define GAME_BOARD
-#include "constants.h"
+#include "constants.hpp"
 #include <ncurses.h>
 
 class GameBoard {
@@ -23,8 +23,8 @@ class GameBoard {
 		void setColour(int, int, BlockColour);
 
 		/* Methods */
+		void createWindow(int, int);
 		void render();
-		void createGameBoardWindow();
 		void lineClear();
 		bool isFilledRow(int);
 		void clearRow(int);

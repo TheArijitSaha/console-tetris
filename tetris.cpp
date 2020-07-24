@@ -1,5 +1,5 @@
-#include "tetris.h"
-#include "tetris_exceptions.h"
+#include "tetris.hpp"
+#include "tetris_exceptions.hpp"
 #include <cstdlib>
 #include <unistd.h>
 #include <ctime>
@@ -7,11 +7,16 @@
 
 using namespace std;
 
-Tetris::Tetris(): board(), current_block(&(this->board)) {
+Tetris::Tetris(): game_board(), score_board(), current_block(&(this->game_board)) {
 	this->current_block.getNewBlock();
+	this->score = 0;
+	this->line_clears = 0;
+	int screen_height,screen_width;
 
 	/* Intialise Screen */
 	initscr();
+	screen_height = LINES;
+	screen_width = COLS;
 	cbreak();																			/* Disable Line Buffering */
 	noecho();																			/* Do not echo typed key */
 	curs_set(0);																	/* Set Cursor Invisible */
@@ -19,8 +24,7 @@ Tetris::Tetris(): board(), current_block(&(this->board)) {
 	/* TODO: check if a very small delay improves rendering performance */
 	nodelay(stdscr, TRUE);												/* No wait on reading */
 	refresh();																		/* To flush stdscr so that other windows are loaded above it */
-	this->board.createGameBoardWindow();
-
+	
 	if (has_colors() == FALSE) {
 		/* TODO: Change so that a black and white form of tetris can be played */
 		endwin();
@@ -28,10 +32,26 @@ Tetris::Tetris(): board(), current_block(&(this->board)) {
 		exit(EXIT_FAILURE);
 	}
 	this->formColours();
+	
+	this->game_board.createWindow(screen_height, screen_width);
+	this->score_board.createWindow(screen_height, screen_width);
 }
 
 Tetris::~Tetris() {
 	endwin();
+}
+
+/* Getters */
+int Tetris::getNumberOfLineClears() {
+	return this->line_clears;
+}
+
+int Tetris::getLevel() {
+	return 1 + (line_clears / 10);
+}
+
+int Tetris::getScore() {
+	return this->score;
 }
 
 /* Methods */
@@ -39,10 +59,12 @@ void Tetris::loop() {
 	int pressed_key = ERR;
 	this->game_over = false;
 
+	this->score_board.render();
+
 	while (!this->game_over) {
 		clock_t t1 = clock(), t2 = clock();
 		do {
-			this->board.render();
+			this->game_board.render();
 			while (((pressed_key = getch()) == ERR) && ((t2 - t1) < CLOCKS_PER_SEC)) {
 				t2 = clock();
 			}
@@ -63,17 +85,18 @@ void Tetris::loop() {
 		} while (t2 - t1 < CLOCKS_PER_SEC);
 		
 		if (this->current_block.isTouchingBelow()) {
-			this->board.lineClear();
+			this->game_board.lineClear();
 			try {
 				this->current_block.getNewBlock();
 			} catch (tetriminoOverlapException& toe) {
 				this->game_over = true;
 			}
+			this->score_board.render();
 		} else {
 			this->current_block.moveOneStepDown();
 		}
 	}
-	this->board.printGameOver();
+	this->game_board.printGameOver();
 	sleep(2);
 }
 
