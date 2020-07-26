@@ -43,8 +43,8 @@ const char* number_pattern[NUMBER_COUNT][LINE_COUNT] = {
 		"\u2590\u2599\u2584\u259F\u258C" },
 	/* 9 */
 	{ "\u2590\u259B\u2580\u259C\u258C",
-		"\u2590\u258C \u2590\u258C",
-		"\u2590\u2599\u2584\u259F\u258C" }
+		"\u259D\u2580\u2580\u259C\u258C",
+		"\u2597\u2584\u2584\u259F\u258C" }
 };
 
 #endif /* SCORE_DISPLAY */
