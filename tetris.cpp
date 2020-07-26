@@ -137,6 +137,8 @@ void Tetris::formColours() {
 	init_color(Red, 929, 161, 224);
 	init_color(BG1, 176, 176, 176);
 	init_color(BG2, 157, 157, 157);
+	init_color(SCORE_BG, 20, 20, 20);
+	init_color(SCORE_FG, 380, 380, 380);
 	
 	/* Initialising Colour Pairs */
 	init_pair(BLOCK_NONE, -1, -1);
@@ -149,5 +151,6 @@ void Tetris::formColours() {
 	init_pair(BLOCK_RED, -1, Red);
 	init_pair(BLOCK_BG1, -1, BG1);
 	init_pair(BLOCK_BG2, -1, BG2);
+	init_pair(SCORE, SCORE_FG, SCORE_BG);
 }
 

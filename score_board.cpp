@@ -21,14 +21,14 @@ ScoreBoard::~ScoreBoard() {
 void ScoreBoard::render() {
 	werase(this->score_win);
 	string padded_score = this->getIntegerAsPaddedString(this->rendered_score, 6);
-	//wattron(this->score_win, COLOR_PAIR(BLOCK_RED));
+	wattron(this->score_win, COLOR_PAIR(SCORE));
 	for (int line = 0; line < 3; ++line) {
 		wmove(this->score_win, line, 0);
 		for (char number: padded_score) {
 			waddwstr(this->score_win, number_pattern[number - '0'][line]);
 		}
 	}
-	//wattroff(this->score_win, COLOR_PAIR(BLOCK_RED));
+	wattroff(this->score_win, COLOR_PAIR(SCORE));
 	wrefresh(this->score_win);
 }
 

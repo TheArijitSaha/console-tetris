@@ -22,7 +22,9 @@ enum CellColour {
 	Purple,
 	Red,
 	BG1,
-	BG2
+	BG2,
+	SCORE_BG,
+	SCORE_FG
 };
 
 /* Block Colour Pairs */
@@ -36,7 +38,8 @@ enum BlockColour {
 	BLOCK_PURPLE,
 	BLOCK_RED,
 	BLOCK_BG1,
-	BLOCK_BG2
+	BLOCK_BG2,
+	SCORE
 };
 
 /* Point */
