@@ -1,6 +1,6 @@
 #define _XOPEN_SOURCE_EXTENDED
 
-#include <iostream>
+#include <string>
 #include "score_board.hpp"
 #include "score_display.hpp"
 
@@ -20,10 +20,14 @@ ScoreBoard::~ScoreBoard() {
 /* Methods */
 void ScoreBoard::render() {
 	werase(this->score_win);
-	mvwaddstr(this->score_win, 0, 0, number_pattern[0][0]);
-	mvwaddstr(this->score_win, 1, 0, number_pattern[0][1]);
-	mvwaddstr(this->score_win, 2, 0, number_pattern[0][2]);
+	string padded_score = this->getIntegerAsPaddedString(this->rendered_score, 6);
 	//wattron(this->score_win, COLOR_PAIR(BLOCK_RED));
+	for (int line = 0; line < 3; ++line) {
+		wmove(this->score_win, line, 0);
+		for (char number: padded_score) {
+			waddwstr(this->score_win, number_pattern[number - '0'][line]);
+		}
+	}
 	//wattroff(this->score_win, COLOR_PAIR(BLOCK_RED));
 	wrefresh(this->score_win);
 }
@@ -44,5 +48,21 @@ void ScoreBoard::update(int new_score) {
 		this->rendered_score = new_score;
 		this->render();
 	}
+}
+
+/* Static Methods */
+string ScoreBoard::getIntegerAsPaddedString(int number, int pad_length) {
+	string reverse_padded_string = "", padded_string = "";
+
+	for (int i = 0; i < pad_length; ++i) {
+		reverse_padded_string += (char) ((number % 10) + '0');
+		number /= 10;
+	}
+	
+	for (int i = 0; i < pad_length; ++i) {
+		padded_string += reverse_padded_string[pad_length - 1 - i];
+	}
+
+	return padded_string;
 }
 

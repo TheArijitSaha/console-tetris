@@ -2,6 +2,7 @@
 #define SCORE_BOARD
 #include "constants.hpp"
 #include <ncursesw/ncurses.h>
+#include <string>
 
 class ScoreBoard {
 	private:
@@ -16,6 +17,9 @@ class ScoreBoard {
 		void render();
 		void createWindow(int, int);
 		void update(int);
+
+		/* Static Methods */
+		static std::string getIntegerAsPaddedString(int, int);
 };
 
 #endif /* SCORE_BOARD */
