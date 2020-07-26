@@ -24,8 +24,10 @@ This project is a remake of the classic game of Tetris for the linux console.
 - Open the directory in your terminal
 - Do:
 	```
+	sudo apt-get install libncursesw5-dev
 	make clean && make
 	```
+	Installing the ncursesw library gives access to unicode character printability in ncurses mode (needed for scoreboard).
 
 ### Run
 

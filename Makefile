@@ -7,7 +7,7 @@ CXXFLAGS = -Wall
 # g			: For debugger
 
 # Compiler libraries
-CXXLIBS = -lncurses
+CXXLIBS = -lncursesw
 
 # Directories:
 ODIR = ./obj
@@ -26,7 +26,7 @@ tetris.o: tetris.cpp tetris.hpp game_board.hpp tet_block.hpp tetris_exceptions.h
 game_board.o: game_board.cpp game_board.hpp constants.hpp
 	$(CXX) $(CXXFLAGS) -c game_board.cpp -o $(ODIR)/$@ $(CXXLIBS)
 
-score_board.o: score_board.cpp score_board.hpp constants.hpp
+score_board.o: score_board.cpp score_board.hpp constants.hpp score_display.hpp
 	$(CXX) $(CXXFLAGS) -c score_board.cpp -o $(ODIR)/$@ $(CXXLIBS)
 
 tet_block.o: tet_block.cpp tet_block.hpp constants.hpp tetris_exceptions.hpp

@@ -1,7 +1,7 @@
 #ifndef SCORE_BOARD
 #define SCORE_BOARD
 #include "constants.hpp"
-#include <ncurses.h>
+#include <ncursesw/ncurses.h>
 
 class ScoreBoard {
 	private:

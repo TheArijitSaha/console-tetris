@@ -1,9 +1,12 @@
+#define _XOPEN_SOURCE_EXTENDED
+
 #include <iostream>
 #include "score_board.hpp"
+#include "score_display.hpp"
 
 using namespace std;
 
-ScoreBoard::ScoreBoard(): height(4), width(5 * 6) {
+ScoreBoard::ScoreBoard(): height(3), width(5 * 6) {
 	this->score_win = nullptr;
 	this->rendered_score = 0;
 }
@@ -17,7 +20,11 @@ ScoreBoard::~ScoreBoard() {
 /* Methods */
 void ScoreBoard::render() {
 	werase(this->score_win);
-	mvwprintw(this->score_win, 0, 0, "%d", this->rendered_score);
+	mvwaddstr(this->score_win, 0, 0, number_pattern[0][0]);
+	mvwaddstr(this->score_win, 1, 0, number_pattern[0][1]);
+	mvwaddstr(this->score_win, 2, 0, number_pattern[0][2]);
+	//wattron(this->score_win, COLOR_PAIR(BLOCK_RED));
+	//wattroff(this->score_win, COLOR_PAIR(BLOCK_RED));
 	wrefresh(this->score_win);
 }
 

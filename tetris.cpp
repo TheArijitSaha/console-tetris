@@ -2,6 +2,7 @@
 #include "tetris_exceptions.hpp"
 #include <cstdlib>
 #include <unistd.h>
+#include <locale.h>
 #include <ctime>
 #include <ncurses.h>
 
@@ -14,6 +15,7 @@ Tetris::Tetris(): game_board(), score_board(), current_block(&(this->game_board)
 	int screen_height,screen_width;
 
 	/* Intialise Screen */
+	setlocale(LC_ALL, "");
 	initscr();
 	screen_height = LINES;
 	screen_width = COLS;
