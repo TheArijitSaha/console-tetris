@@ -2,6 +2,7 @@
 #include "tetris_exceptions.hpp"
 #include <cstdlib>
 #include <unistd.h>
+#include <locale.h>
 #include <ctime>
 #include <ncurses.h>
 
@@ -11,9 +12,11 @@ Tetris::Tetris(): game_board(), score_board(), current_block(&(this->game_board)
 	this->current_block.getNewBlock();
 	this->score = 0;
 	this->line_clears = 0;
+	this->updateInterval();
 	int screen_height,screen_width;
 
 	/* Intialise Screen */
+	setlocale(LC_ALL, "");
 	initscr();
 	screen_height = LINES;
 	screen_width = COLS;
@@ -35,6 +38,7 @@ Tetris::Tetris(): game_board(), score_board(), current_block(&(this->game_board)
 	
 	this->game_board.createWindow(screen_height, screen_width);
 	this->score_board.createWindow(screen_height, screen_width);
+	this->score_board.update(this->getScore(), this->getLevel());
 }
 
 Tetris::~Tetris() {
@@ -47,7 +51,7 @@ int Tetris::getNumberOfLineClears() {
 }
 
 int Tetris::getLevel() {
-	return 1 + (line_clears / 10);
+	return 1 + (this->line_clears / 10);
 }
 
 int Tetris::getScore() {
@@ -65,7 +69,7 @@ void Tetris::loop() {
 		clock_t t1 = clock(), t2 = clock();
 		do {
 			this->game_board.render();
-			while (((pressed_key = getch()) == ERR) && ((t2 - t1) < CLOCKS_PER_SEC)) {
+			while (((pressed_key = getch()) == ERR) && ((t2 - t1) < this->interval)) {
 				t2 = clock();
 			}
 			if(pressed_key != ERR) {
@@ -82,22 +86,91 @@ void Tetris::loop() {
 				}
 			}
 			t2 = clock();
-		} while (t2 - t1 < CLOCKS_PER_SEC);
+		} while (t2 - t1 < this->interval);
 		
 		if (this->current_block.isTouchingBelow()) {
-			this->game_board.lineClear();
+			int linesCleared = this->game_board.lineClear();
+			this->updateScore(linesCleared);
+			this->updateInterval();
+
 			try {
 				this->current_block.getNewBlock();
 			} catch (tetriminoOverlapException& toe) {
 				this->game_over = true;
 			}
-			this->score_board.render();
 		} else {
 			this->current_block.moveOneStepDown();
 		}
 	}
+
 	this->game_board.printGameOver();
 	sleep(2);
+}
+
+void Tetris::updateScore(int linesCleared) {
+	switch(linesCleared) {
+		case 4:	this->score += 800 * this->getLevel();
+						break;
+		case 3:	this->score += 500 * this->getLevel();
+						break;
+		case 2:	this->score += 300 * this->getLevel();
+						break;
+		case 1:	this->score += 100 * this->getLevel();
+						break;
+	}
+
+	this->line_clears += linesCleared;
+	this->score_board.update(this->getScore(), this->getLevel());
+}
+
+void Tetris::updateInterval() {
+	/*
+	 * Updates intervals according to level:
+	 *     1: 1000
+	 *     2: 896
+	 *     3: 792
+	 *     4: 688
+	 *     5: 584
+	 *     6: 480
+	 *     7: 376
+	 *     8: 272
+	 *     9: 168
+	 *    10: 125
+	 * 11-13: 104
+	 * 14-16: 83
+	 * 17-19: 63
+	 * 20-29: 42
+	 *  >=30: 21
+	 *
+	 *  reference scaled up from : https://harddrop.com/wiki/Tetris_(NES,_Nintendo)
+	 */
+	float multiplier = 1000;
+	int current_level = this->getLevel();
+
+	if (current_level < 10) {
+		/* 1-9 */
+		multiplier = 1000 - 104 * (current_level - 1);
+	} else if (current_level == 10) {
+		/* 10 */
+		multiplier = 125;
+	} else if (current_level < 14) {
+		/* 11-13 */
+		multiplier = 104;
+	} else if (current_level < 17 ) {
+		/* 14-16 */
+		multiplier = 83;
+	} else if (current_level < 20 ) {
+		/* 17-19 */
+		multiplier = 63;
+	} else if (current_level < 30 ) {
+		/* 20-29 */
+		multiplier = 42;
+	} else {
+		/* >=30 */
+		multiplier = 21;
+	}
+
+	this->interval = (int) ((CLOCKS_PER_SEC / 1000.0) * multiplier);
 }
 
 void Tetris::formColours() {
@@ -117,6 +190,9 @@ void Tetris::formColours() {
 	init_color(Red, 929, 161, 224);
 	init_color(BG1, 176, 176, 176);
 	init_color(BG2, 157, 157, 157);
+	init_color(SCORE_BG, 20, 20, 20);
+	init_color(SCORE_FG, 380, 380, 380);
+	init_color(SCORE_FG_ZERO, 80, 80, 80);
 	
 	/* Initialising Colour Pairs */
 	init_pair(BLOCK_NONE, -1, -1);
@@ -129,5 +205,7 @@ void Tetris::formColours() {
 	init_pair(BLOCK_RED, -1, Red);
 	init_pair(BLOCK_BG1, -1, BG1);
 	init_pair(BLOCK_BG2, -1, BG2);
+	init_pair(SCORE, SCORE_FG, SCORE_BG);
+	init_pair(SCORE_ZERO, SCORE_FG_ZERO, SCORE_BG);
 }
 

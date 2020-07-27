@@ -25,7 +25,7 @@ class GameBoard {
 		/* Methods */
 		void createWindow(int, int);
 		void render();
-		void lineClear();
+		int lineClear();
 		bool isFilledRow(int);
 		void clearRow(int);
 		void copyRow(int, int);
