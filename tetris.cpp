@@ -37,6 +37,7 @@ Tetris::Tetris(): game_board(), score_board(), current_block(&(this->game_board)
 	
 	this->game_board.createWindow(screen_height, screen_width);
 	this->score_board.createWindow(screen_height, screen_width);
+	this->score_board.update(this->getScore(), this->getLevel());
 }
 
 Tetris::~Tetris() {
@@ -49,7 +50,7 @@ int Tetris::getNumberOfLineClears() {
 }
 
 int Tetris::getLevel() {
-	return 1 + (line_clears / 10);
+	return 1 + (this->line_clears / 10);
 }
 
 int Tetris::getScore() {
@@ -117,7 +118,7 @@ void Tetris::updateScore(int linesCleared) {
 	}
 
 	this->line_clears += linesCleared;
-	this->score_board.update(this->score);
+	this->score_board.update(this->getScore(), this->getLevel());
 }
 
 void Tetris::formColours() {

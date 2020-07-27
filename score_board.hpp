@@ -7,7 +7,7 @@
 class ScoreBoard {
 	private:
 		const int height, width;
-		int rendered_score;
+		int rendered_score, rendered_level;
 		WINDOW *score_win;
 	public:
 		ScoreBoard();
@@ -16,10 +16,11 @@ class ScoreBoard {
 		/* Methods */
 		void render();
 		void createWindow(int, int);
-		void update(int);
+		void update(int, int);
 
 		/* Static Methods */
 		static std::string getIntegerAsPaddedString(int, int);
+		static int getNoOfDigitsInInteger(int);
 };
 
 #endif /* SCORE_BOARD */

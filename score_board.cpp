@@ -6,9 +6,10 @@
 
 using namespace std;
 
-ScoreBoard::ScoreBoard(): height(3), width(5 * 6) {
+ScoreBoard::ScoreBoard(): height(4), width(5 * 6) {
 	this->score_win = nullptr;
 	this->rendered_score = 0;
+	this->rendered_level = 1;
 }
 
 ScoreBoard::~ScoreBoard() {
@@ -20,12 +21,22 @@ ScoreBoard::~ScoreBoard() {
 /* Methods */
 void ScoreBoard::render() {
 	werase(this->score_win);
-	string padded_score = this->getIntegerAsPaddedString(this->rendered_score, 6);
 	
+	/* Render Level */
+	wmove(this->score_win, 0, (this->width - (this->getNoOfDigitsInInteger(this->rendered_score) + 12)) / 2);
+	wattron(this->score_win, COLOR_PAIR(SCORE));
+	wattron(this->score_win, A_BOLD);
+	wprintw(this->score_win, "-- Level %d --", this->rendered_level);
+	wattroff(this->score_win, A_BOLD);
+	wattroff(this->score_win, COLOR_PAIR(SCORE));
+	
+	/* Render Score */
+	string padded_score = this->getIntegerAsPaddedString(this->rendered_score, 6);
+
 	for (int line = 0; line < 3; ++line) {
 		bool started_number = false;
 		
-		wmove(this->score_win, line, 0);
+		wmove(this->score_win, line + 1, 0);
 		wattron(this->score_win, COLOR_PAIR(SCORE_ZERO));
 
 		for (char number: padded_score) {
@@ -44,6 +55,7 @@ void ScoreBoard::render() {
 			wattroff(this->score_win, COLOR_PAIR(SCORE_ZERO));
 		}
 	}
+
 	wrefresh(this->score_win);
 }
 
@@ -54,18 +66,30 @@ void ScoreBoard::createWindow(int screen_height, int screen_width) {
 	int starty = (screen_height - this->height) / 2;
 	int startx = (screen_width - this->width) / 4;
 	this->score_win = newwin(this->height, this->width, starty, startx);
-	wbkgdset(this->score_win, COLOR_PAIR(BLOCK_BG1));
+	wbkgdset(this->score_win, COLOR_PAIR(SCORE_BG));
 	wrefresh(this->score_win);
 }
 
-void ScoreBoard::update(int new_score) {
-	if (this->rendered_score != new_score) {
+void ScoreBoard::update(int new_score, int new_level) {
+	if ((this->rendered_score != new_score) || (this->rendered_level != new_level)) {
 		this->rendered_score = new_score;
+		this->rendered_level = new_level;
 		this->render();
 	}
 }
 
 /* Static Methods */
+int ScoreBoard::getNoOfDigitsInInteger(int number) {
+	int digits = 0;
+
+	while (number > 0) {
+		number /= 10;
+		++digits;
+	}
+
+	return digits;
+}
+
 string ScoreBoard::getIntegerAsPaddedString(int number, int pad_length) {
 	string reverse_padded_string = "", padded_string = "";
 
