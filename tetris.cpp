@@ -12,6 +12,7 @@ Tetris::Tetris(): game_board(), score_board(), current_block(&(this->game_board)
 	this->current_block.getNewBlock();
 	this->score = 0;
 	this->line_clears = 0;
+	this->updateInterval();
 	int screen_height,screen_width;
 
 	/* Intialise Screen */
@@ -68,7 +69,7 @@ void Tetris::loop() {
 		clock_t t1 = clock(), t2 = clock();
 		do {
 			this->game_board.render();
-			while (((pressed_key = getch()) == ERR) && ((t2 - t1) < CLOCKS_PER_SEC)) {
+			while (((pressed_key = getch()) == ERR) && ((t2 - t1) < this->interval)) {
 				t2 = clock();
 			}
 			if(pressed_key != ERR) {
@@ -85,11 +86,12 @@ void Tetris::loop() {
 				}
 			}
 			t2 = clock();
-		} while (t2 - t1 < CLOCKS_PER_SEC);
+		} while (t2 - t1 < this->interval);
 		
 		if (this->current_block.isTouchingBelow()) {
 			int linesCleared = this->game_board.lineClear();
 			this->updateScore(linesCleared);
+			this->updateInterval();
 
 			try {
 				this->current_block.getNewBlock();
@@ -119,6 +121,56 @@ void Tetris::updateScore(int linesCleared) {
 
 	this->line_clears += linesCleared;
 	this->score_board.update(this->getScore(), this->getLevel());
+}
+
+void Tetris::updateInterval() {
+	/*
+	 * Updates intervals according to level:
+	 *     1: 1000
+	 *     2: 896
+	 *     3: 792
+	 *     4: 688
+	 *     5: 584
+	 *     6: 480
+	 *     7: 376
+	 *     8: 272
+	 *     9: 168
+	 *    10: 125
+	 * 11-13: 104
+	 * 14-16: 83
+	 * 17-19: 63
+	 * 20-29: 42
+	 *  >=30: 21
+	 *
+	 *  reference scaled up from : https://harddrop.com/wiki/Tetris_(NES,_Nintendo)
+	 */
+	float multiplier = 1000;
+	int current_level = this->getLevel();
+
+	if (current_level < 10) {
+		/* 1-9 */
+		multiplier = 1000 - 104 * (current_level - 1);
+	} else if (current_level == 10) {
+		/* 10 */
+		multiplier = 125;
+	} else if (current_level < 14) {
+		/* 11-13 */
+		multiplier = 104;
+	} else if (current_level < 17 ) {
+		/* 14-16 */
+		multiplier = 83;
+	} else if (current_level < 20 ) {
+		/* 17-19 */
+		multiplier = 63;
+	} else if (current_level < 30 ) {
+		/* 20-29 */
+		multiplier = 42;
+	} else {
+		/* >=30 */
+		multiplier = 21;
+	}
+
+	this->interval = (int) ((CLOCKS_PER_SEC / 1000.0) * multiplier);
 }
 
 void Tetris::formColours() {

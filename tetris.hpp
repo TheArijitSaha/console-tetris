@@ -10,7 +10,7 @@ class Tetris {
 		ScoreBoard score_board;
 		bool game_over;
 		TetBlock current_block;
-		int line_clears, score;
+		int line_clears, score, interval;
 	public:
 		Tetris();
 		~Tetris();
@@ -23,6 +23,7 @@ class Tetris {
 		/* Methods */
 		void loop();
 		void updateScore(int);
+		void updateInterval();
 		void formColours();
 };
 

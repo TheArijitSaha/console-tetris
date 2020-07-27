@@ -23,7 +23,7 @@ void ScoreBoard::render() {
 	werase(this->score_win);
 	
 	/* Render Level */
-	wmove(this->score_win, 0, (this->width - (this->getNoOfDigitsInInteger(this->rendered_score) + 12)) / 2);
+	wmove(this->score_win, 0, (this->width - (this->getNoOfDigitsInInteger(this->rendered_level) + 12)) / 2);
 	wattron(this->score_win, COLOR_PAIR(SCORE));
 	wattron(this->score_win, A_BOLD);
 	wprintw(this->score_win, "-- Level %d --", this->rendered_level);
