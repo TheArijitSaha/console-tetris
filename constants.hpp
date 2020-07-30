@@ -65,9 +65,8 @@ enum Tetrimino {
 };
 
 /* Block Patterns */
-const int BLOCK_COUNT = 7;
 const int ORIENTATION_COUNT = 4;
-const Point block_pattern[BLOCK_COUNT][ORIENTATION_COUNT][4] = {
+const Point block_pattern[TETRIMINO_COUNT][ORIENTATION_COUNT][4] = {
 	/* I-block */
 	{ { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 3, 0 } },
 		{ { 0, 0 }, { 0, 1 }, { 0, 2 }, { 0, 3 } },

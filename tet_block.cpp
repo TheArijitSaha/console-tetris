@@ -9,6 +9,11 @@ TetBlock::TetBlock(GameBoard* board) {
 	this->board = board;
 }
 
+/* Getters */
+Tetrimino TetBlock::getTetriminoTag() {
+	return this->block_index;
+}
+
 /* Sensory Methods */
 bool TetBlock::isTouchingBelow() {
 	if (this->Y + this->height >= this->board->getRowCount()) return true;
@@ -164,9 +169,9 @@ void TetBlock::changeOrientation() {
 
 /* Functionality Methods */
 void TetBlock::getNewBlock() {
-	this->block_index = rand() % BLOCK_COUNT;
+	this->block_index = static_cast<Tetrimino>(rand() % TETRIMINO_COUNT);
 	this->orientation_index = rand() % ORIENTATION_COUNT;
-	this->colour = static_cast<BlockColour>(this->block_index + 1);
+	this->colour = static_cast<BlockColour>((int)(this->block_index) + 1);
 	this->readPattern();
 	this->Y = 0;
 	this->X = (this->board->getColumnCount() - this->width) / 2;

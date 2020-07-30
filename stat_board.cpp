@@ -3,7 +3,7 @@
 
 using namespace std;
 
-StatBoard::StatBoard(): height(3 * TETRIMINO_COUNT), width(12) {
+StatBoard::StatBoard(): height(3 * TETRIMINO_COUNT), width(4 * 2 + 4 + 7) {
 	this->stat_win = nullptr;
 	this->total_tetrimino_count = 0;
 
@@ -38,6 +38,19 @@ void StatBoard::render() {
 
 		wattroff(this->stat_win, COLOR_PAIR(stat_tet));
 	}
+	
+	for (int stat_tet = 0; stat_tet < TETRIMINO_COUNT; ++stat_tet) {
+		wmove(this->stat_win, stat_tet * 3 + 1, 4 * 2 + 1);
+		wattron(this->stat_win, COLOR_PAIR(STAT));
+
+		if (this->total_tetrimino_count == 0) {
+			wprintw(this->stat_win, "--   0.0 %%");
+		} else {
+			wprintw(this->stat_win, "-- %5.1f %%", (this->tetrimino_frequency[stat_tet] / (float)this->total_tetrimino_count) * 100);
+		}
+
+		wattroff(this->stat_win, COLOR_PAIR(STAT));
+	}
 
 	wrefresh(this->stat_win);
 }
@@ -54,7 +67,7 @@ void StatBoard::createWindow(int screen_height, int screen_width) {
 }
 
 void StatBoard::incrementTetriminoFrequency(Tetrimino tet) {
-	if (tet >= TETRIMINO_COUNT) return;
+	if ((tet >= TETRIMINO_COUNT) || (tet < 0)) return;
 
 	++(this->tetrimino_frequency[tet]);
 	++(this->total_tetrimino_count);

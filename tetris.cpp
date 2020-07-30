@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Tetris::Tetris(): game_board(), score_board(), current_block(&(this->game_board)) {
+Tetris::Tetris(): game_board(), score_board(), stat_board(), current_block(&(this->game_board)) {
 	this->current_block.getNewBlock();
 	this->score = 0;
 	this->line_clears = 0;
@@ -34,11 +34,13 @@ Tetris::Tetris(): game_board(), score_board(), current_block(&(this->game_board)
 		printf("Your terminal does not support color\n");
 		exit(EXIT_FAILURE);
 	}
-	this->formColours();
+	formColours();
 	
 	this->game_board.createWindow(screen_height, screen_width);
 	this->score_board.createWindow(screen_height, screen_width);
 	this->score_board.update(this->getScore(), this->getLevel());
+	this->stat_board.createWindow(screen_height, screen_width);
+	this->stat_board.incrementTetriminoFrequency(this->current_block.getTetriminoTag());
 }
 
 Tetris::~Tetris() {
@@ -95,6 +97,7 @@ void Tetris::loop() {
 
 			try {
 				this->current_block.getNewBlock();
+				this->stat_board.incrementTetriminoFrequency(this->current_block.getTetriminoTag());
 			} catch (tetriminoOverlapException& toe) {
 				this->game_over = true;
 			}
@@ -193,6 +196,8 @@ void Tetris::formColours() {
 	init_color(SCORE_BG, 20, 20, 20);
 	init_color(SCORE_FG, 380, 380, 380);
 	init_color(SCORE_FG_ZERO, 80, 80, 80);
+	init_color(STAT_FG, 380, 380, 380);
+	init_color(STAT_BG, 20, 20, 20);
 	
 	/* Initialising Colour Pairs */
 	init_pair(BLOCK_NONE, -1, -1);
@@ -207,5 +212,6 @@ void Tetris::formColours() {
 	init_pair(BLOCK_BG2, -1, BG2);
 	init_pair(SCORE, SCORE_FG, SCORE_BG);
 	init_pair(SCORE_ZERO, SCORE_FG_ZERO, SCORE_BG);
+	init_pair(STAT, STAT_FG, STAT_BG);
 }
 
