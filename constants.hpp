@@ -25,7 +25,9 @@ enum CellColour {
 	BG2,
 	SCORE_BG,
 	SCORE_FG,
-	SCORE_FG_ZERO
+	SCORE_FG_ZERO,
+	STAT_BG,
+	STAT_FG
 };
 
 /* Block Colour Pairs */
@@ -41,12 +43,25 @@ enum BlockColour {
 	BLOCK_BG1,
 	BLOCK_BG2,
 	SCORE,
-	SCORE_ZERO
+	SCORE_ZERO,
+	STAT
 };
 
 /* Point */
 struct Point {
 	int Y, X;
+};
+
+/* Tetrimino */
+enum Tetrimino {
+	I_BLOCK,
+	J_BLOCK,
+	L_BLOCK,
+	O_BLOCK,
+	S_BLOCK,
+	T_BLOCK,
+	Z_BLOCK,
+	TETRIMINO_COUNT
 };
 
 /* Block Patterns */
