@@ -61,8 +61,12 @@ void StatBoard::createWindow(int screen_height, int screen_width) {
 	}
 	int starty = (screen_height - this->height) / 2;
 	int startx = ((screen_width - this->width) * 3) / 4;
+
 	this->stat_win = newwin(this->height, this->width, starty, startx);
+	wattrset(this->stat_win, A_NORMAL);
 	wbkgdset(this->stat_win, COLOR_PAIR(STAT));
+	box(this->stat_win, 0, 0);
+	wrefresh(this->stat_win);
 	this->render();
 }
 

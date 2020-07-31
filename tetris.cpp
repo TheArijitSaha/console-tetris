@@ -13,7 +13,7 @@ Tetris::Tetris(): game_board(), score_board(), stat_board(), current_block(&(thi
 	this->score = 0;
 	this->line_clears = 0;
 	this->updateInterval();
-	int screen_height,screen_width;
+	int screen_height, screen_width;
 
 	/* Intialise Screen */
 	setlocale(LC_ALL, "");
