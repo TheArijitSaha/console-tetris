@@ -66,7 +66,8 @@ void ScoreBoard::createWindow(int screen_height, int screen_width) {
 	int starty = (screen_height - this->height) / 2;
 	int startx = (screen_width - this->width) / 4;
 	this->score_win = newwin(this->height, this->width, starty, startx);
-	wbkgdset(this->score_win, COLOR_PAIR(SCORE_BG));
+	wattrset(this->score_win, A_NORMAL);
+	wbkgd(this->score_win, COLOR_PAIR(SCORE));
 	wrefresh(this->score_win);
 }
 

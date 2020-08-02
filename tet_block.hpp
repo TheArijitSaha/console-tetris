@@ -8,11 +8,15 @@ class TetBlock {
 		Point pattern[4];
 		GameBoard *board;
 		int X, Y, width, height;
-		int block_index, orientation_index;
+		Tetrimino block_index;
+		int orientation_index;
 		BlockColour colour;
 	public:
 		TetBlock(GameBoard*);
-		
+
+		/* Getters */
+		Tetrimino getTetriminoTag();
+
 		/* Sensory Methods */
 		bool isTouchingLeft();
 		bool isTouchingRight();
